@@ -32,8 +32,8 @@ for i in range(4):
 				res[3]=arr[l]
 				for m in range(5):
 					res[4]=arr[m]
-						if(my_function(res)<1):
-							d+=1
+					if(my_function(res)<1):
+						d+=1
 						if(res[0]==9 and res[1]==8):
 							a+=1
 							print("a=")
@@ -50,4 +50,3 @@ print(a)
 print(b)
 print(c)
 print(d)
-
