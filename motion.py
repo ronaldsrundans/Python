@@ -1,3 +1,4 @@
+  GNU nano 2.7.4                                                  File: motion.py                                                            
 
 import datetime
 import os
@@ -22,6 +23,7 @@ for data in glob.glob("/var/lib/motion/"+yesterday+"*"):
         shutil.move(data,"/var/lib/motion/"+yesterday)
 
 #write the new date for yesterday.txt  
-f = open("yesterday.txt", "w")  
+f = open("/media/PythonProgramming/yesterday.txt", "w")  
 f.write(today)
 f.close()
+
