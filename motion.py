@@ -1,24 +1,25 @@
+
 import datetime
 import os
 import glob
 import shutil
-location="/media/Storage/PythonProgramming/Test"
+#location="/media/Storage/PythonProgramming/Test"
 #get the date for this day
 today=('{date:%Y%m%d}'.format( date=datetime.datetime.now()))
 #create a new folder
-newpath = r'/media/Storage/PythonProgramming/Test/testfolder/'+today 
+newpath = r'/var/lib/motion/'+today 
 if not os.path.exists(newpath):
     os.makedirs(newpath)
 #get yesterday date from file
-f = open("yesterday.txt", "r")   
+f = open("/media/PythonProgramming/yesterday.txt", "r")   
 yesterday=f.read()
-print(yesterday)
+#print(yesterday)
 #sort files in yesterday folder
 f.close()
 
-for data in glob.glob("/media/Storage/PythonProgramming/Test/"+yesterday+"*"):
+for data in glob.glob("/var/lib/motion/"+yesterday+"*"):
     if not os.path.isdir(data):
-        shutil.move(data,"/media/Storage/PythonProgramming/Test/testfolder/"+yesterday)
+        shutil.move(data,"/var/lib/motion/"+yesterday)
 
 #write the new date for yesterday.txt  
 f = open("yesterday.txt", "w")  
