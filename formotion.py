@@ -15,18 +15,17 @@ import shutil
 #print(yesterday)
 #sort files in yesterday folder
 #f.close()
-olddates=["20200406","20200405","20200404","20200403","20200402","20200401","20200331"]
+olddates=["20200426","20200427","20200428"]
 for x in olddates:
- newpath = r'/var/lib/Motion/'+x
+ newpath = r'/var/lib/motion/'+x
  if not os.path.exists(newpath):
   os.makedirs(newpath)
 
- for data in glob.glob("/var/lib/Motion/"+x+"*"):
+ for data in glob.glob("/var/lib/motion/"+x+"*"):
   if not os.path.isdir(data):
-   shutil.move(data,"/var/lib/Motion/"+x)
+   shutil.move(data,"/var/lib/motion/"+x)
 
 #write the new date for yesterday.txt  
 #f = open("yesterday.txt", "w")  
 #f.write(today)
 #f.close()
-
