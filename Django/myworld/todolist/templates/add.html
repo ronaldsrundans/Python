@@ -1,0 +1,10 @@
+<h1>Add task</h1>
+
+<form action="addrecord/" method="post">
+{% csrf_token %}
+New task:<br>
+<input name="todoitem">
+<br><br>
+
+<input type="submit" value="Submit">
+</form>
