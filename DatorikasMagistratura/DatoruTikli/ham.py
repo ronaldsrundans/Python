@@ -113,22 +113,8 @@ for i in parity_pos:
             l_pos+=1
 
         if(k_pos==l_pos):
-            #print("Match x="+str(x))
-            #print("Value="+str(send_word[x]))
-            #print(bin_k)
             if(cars[x]==1):
-                sum_par+=1
-            #print(x)
-            #for x in range(len(send_word)):
-                #y=x+1
-
-                #if(y%2==0 AND y_pos==k_po0s)
-
-        #k_counter+=1
-        #if
-    #print("end x")
-   # print("sum="+str(sum_par))
-   # print("i="+str(i))
+                sum_par+=1         
     if (sum_par%2==0):
         cars[i]=0
         #send_word[i]=0
@@ -136,13 +122,27 @@ for i in parity_pos:
         #send_word[i]=1
         cars[i]=1
     #send_word[i]=666
-print("received word=")
+print("compared word=")
 print(cars)
 bin_error=[]
 for i in parity_pos:
 	bin_error.append(XORfunction(send_word[i],cars[i]))
+print("Parity check:")
 print(bin_error)
 error_pos=0
-for i in range(len(bin_error)-1,0,-1):
-	error_pos=error_pos+2**bin_error[len(bin_error)-i]
-print(error_pos)
+#for i in range(len(bin_error)-1,-1,-1):
+	#error_pos=(error_pos+2**bin_error[len(bin_error-1)-i])
+	#error_pos=(error_pos+2**bin_error[i])
+	#print(i)
+	#print(bin_error[i])
+for i in range(0,len(bin_error),1):
+	#print(2**i*bin_error[i])
+	error_pos=error_pos+(2**i*bin_error[i])
+if (error_pos==0):
+	print("No errors found")
+else:
+	print("Found error in position:")
+	print(error_pos)
+	print("Corrected word:")
+	send_word[error_pos-1]=XORfunction(send_word[error_pos-1],1)
+	print(send_word)
