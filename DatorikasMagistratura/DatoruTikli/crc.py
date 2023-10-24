@@ -1,5 +1,3 @@
-#--coding:utf8;--
-#qpy:console
 def XORfunction(a,b):
         if(a==b):
                 return 0
@@ -8,7 +6,6 @@ def XORfunction(a,b):
 def comparefunction(a,b):
 	for i in range(0,4,1):
 		print(i)
-#def modulo2division():
 
 def CRCfunction(frame,generator):
 	len_remainder=len(generator)
@@ -19,14 +16,8 @@ def CRCfunction(frame,generator):
 	print(frame)
 	arr=[]
 	remainder=[]
-	#for i in range(len_remainder):
-	#	arr.append(frame[i])
-	#print(arr)
 	for j in range(len_frame):
-		#print("j=")
-		#print(j)
 		arr.append(frame[j])
-		#print(arr)
 		if(len(arr)==len_remainder):
 			if(arr[0]==1):
 				for i in range(len_remainder):
@@ -43,15 +34,6 @@ def CRCfunction(frame,generator):
 		frame[len_frame-len(arr)+i]=arr[i]
 	print("Frame=")
 	print(frame)
-#arr.append(f
-			#remainder.append()
-#	for i in range(len_frame-len_remainder): 	
-#		print("Gen=")
-#		for j in range(len_remainder):
-#			print(XORfunction(frame[i+j],generator[j]))
-			#print(j)
-	
-#	return 0
 def CRCdecode(frame, generator):
 	len_remainder=len(generator)
 	#for i in range(1,len_remainder,1):
@@ -85,8 +67,9 @@ def CRCdecode(frame, generator):
 	#	frame[len_frame-len(arr)+i]=arr[i]
 	print("Arr=")
 	print(arr)
-def fixError():
+def fixError(frame,generator):
 	print("Hello!")
+	
 word=[1,0,0,1,0,0]
 error=[0,1,0,0,0,0,0]
 key=[1,1,0,1]
@@ -101,6 +84,7 @@ r_word=[]
 word_len=len(word)
 parity_pos=[]
 send_word=[]
+fixError(word2,key)
 #print( "word=")
 #print(word)
 #print("Key=")
@@ -108,8 +92,8 @@ send_word=[]
 CRCfunction(word,key)
 CRCdecode(word,key)
 CRCdecode(word2,key)
-print("word3=")
-CRCfunction(word3,key3)
-CRCdecode(word3,key3)
-CRCfunction(word4, key4)
-CRCdecode(word4,key4)
+#print("word3=")
+#CRCfunction(word3,key3)
+#CRCdecode(word3,key3)
+#CRCfunction(word4, key4)
+#CRCdecode(word4,key4)
