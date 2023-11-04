@@ -12,6 +12,8 @@ def CRCfunction(frame,generator):
 	for i in range(1,len_remainder,1):
 		frame.append(0)
 	len_frame=len(frame)
+	print("Key:")
+	print(generator)
 	print("Padded message:")
 	print(frame)
 	arr=[]
@@ -203,11 +205,12 @@ def HammingCode(word, error):
 word_arr=[[1,1,0,1,1,1,1],[1,0,0,1,0,0,0],[1,1,0,0,0,0,1],[1,1,1,1,1,1,1],[0,0,0,0,0,0,0]]###Tiek labotas tikai kļūdas sūtamajā ziņā. Paritātes bitu vērtību izmaiņas netiek apskatītas.
 er_arr=[[0,1,0,0,0,0,0],[0,0,0,0,0,0,0],[0,1,1,1,1,1,0],[0,1,1,1,1,1,0],[0,0,0,1,0,0,0]]###"1" norāda, kur būs kļūda sūtāmajā ziņā (pirms padding). Nelabo pareizi, ja ir vairāki "1"
 for i in range(5):#Nokarās programma, ja dauzi "1" err_arr 
-	HammingCode(word_arr[i],er_arr[i])
+	print("Piemērs "+str(i+1))
+	HammingCode(word_arr[i],er_arr[i])#Tikai pirmais un piektais piemērs ir pareizi izlabots
 ###CRC# EXAMPLES
 words=[[1,0,0,1,0,0],[1,1,0,1,0,1,1,0,1,1],[1,1,0,1,0,1,1,0,1,1],[1,0,1,1,0,0,1,1],[1,0,0,1,0,0]]
 keys=[[1,1,0,1],[1,0,0,1,1],[1,0,0,1,1],[1,0,0,1,1],[1,0,0,1,1]]
 errors=[[0,1,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,1,0,0],[0,0,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1]]###"1" norāda, kur būs kļūda sūtāmajā ziņā(pēc padding). Nelabo pareizi, ja ir vairāki "1"
-for i in range(5):#dažreiz neizlabo ziņu, arī gadījumos, ja ir tikai 1 bits nomainīts saņemtajā ziņā
+for i in range(5):#dažreiz neizlabo ziņu, arī gadījumos, ja ir tikai 1 bits nomainīts saņemtajā ziņā(Pareizi izlabo tikai 1.piemēru, bet citos rāda, ka paritāte nav[0,0,...]), bet neizlabo)
+	print("Piemērs "+str(i+1))
 	CRC(words[i], keys[i], errors[i])
-	("Done")
