@@ -45,7 +45,7 @@ def AddErorr(send_word,error,parity_pos):
 	for i in range(len(r_word)):
 		#Kļūdu rada XOR funkcija, kas pārveido 0->1 vai 1->0, ja Error masīvā ir "1" 
 		send_word[i]=XORfunction(r_word[i],send_word[i])
-	print(send_word)
+	#print(send_word)
 def CRCdecode(frame, generator,arr):
 	len_remainder=len(generator)
 	len_frame=len(frame)
@@ -174,18 +174,7 @@ def ParityValues(send_word,parity_pos):
 		#Ja simbolu "0" skaits ir nepāra skaitlis, tad raksta "1"
 		else:
         		send_word[i]=1
-"""        		
-def AddErorr(send_word,error,parity_pos):
-	r_word=[]
-	for i in error:
-		for j in parity_pos:
-			if(j==len(r_word)) :
-				r_word.append(0)
-		r_word.append(i)
-	for i in range(len(r_word)):
-		#Kļūdu rada XOR funkcija, kas pārveido 0->1 vai 1->0, ja Error masīvā ir "1" 
-		send_word[i]=XORfunction(r_word[i],send_word[i])
-	print(send_word)"""
+
 def HammingCode(word, error):
 	print("HammingCode Message:")
 	print(word)
@@ -201,24 +190,24 @@ def HammingCode(word, error):
 	AddErorr(send_word,error, parity_pos)
 	#Sūtāmajā vārdā pievieno kļūdu(nemaina paritātes bitu vērtības	
 	print(send_word)
-	cars=[]
+	compare=[]
 	for i in send_word:
-		cars.append(i)
+		compare.append(i)
 	#Parbauda kadai jabut Parity vertibam sanemtaja zina
-	ParityValues(cars,parity_pos)
+	ParityValues(compare,parity_pos)
 	print("Compared word:")
-	print(cars)
-	ParityCheck(send_word, cars, parity_pos)
+	print(compare)
+	ParityCheck(send_word, compare, parity_pos)
 	print("\n")
-#Hamming Code EXAMPLES	
-word_arr=[[1,1,0,1,1,1,1],[1,0,0,1,0,0,0],[1,1,0,0,0,0,1],[1,1,0,1,1,0,1],[1,1,0,1,0,0,1]]
-er_arr=[[0,1,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,1,0,0,0]]
-for i in range(5):
+#Hamming Code #EXAMPLES	
+word_arr=[[1,1,0,1,1,1,1],[1,0,0,1,0,0,0],[1,1,0,0,0,0,1],[1,1,1,1,1,1,1],[0,0,0,0,0,0,0]]###Tiek labotas tikai kļūdas sūtamajā ziņā. Paritātes bitu vērtību izmaiņas netiek apskatītas.
+er_arr=[[0,1,0,0,0,0,0],[0,0,0,0,0,0,0],[0,1,1,1,1,1,0],[0,1,1,1,1,1,0],[0,0,0,1,0,0,0]]###"1" norāda, kur būs kļūda sūtāmajā ziņā (pirms padding). Nelabo pareizi, ja ir vairāki "1"
+for i in range(5):#Nokarās programma, ja dauzi "1" err_arr 
 	HammingCode(word_arr[i],er_arr[i])
 ###CRC# EXAMPLES
 words=[[1,0,0,1,0,0],[1,1,0,1,0,1,1,0,1,1],[1,1,0,1,0,1,1,0,1,1],[1,0,1,1,0,0,1,1],[1,0,0,1,0,0]]
 keys=[[1,1,0,1],[1,0,0,1,1],[1,0,0,1,1],[1,0,0,1,1],[1,0,0,1,1]]
-errors=[[0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0]]
-for i in range(5):
+errors=[[0,1,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,1,0,0],[0,0,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1]]###"1" norāda, kur būs kļūda sūtāmajā ziņā(pēc padding). Nelabo pareizi, ja ir vairāki "1"
+for i in range(5):#dažreiz neizlabo ziņu, arī gadījumos, ja ir tikai 1 bits nomainīts saņemtajā ziņā
 	CRC(words[i], keys[i], errors[i])
 	("Done")
