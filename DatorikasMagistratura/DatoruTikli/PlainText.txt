@@ -1,0 +1,269 @@
+CALL db.schema.visualization()
+
+#Izveidot skriptu, kas datu bāzē ievieto vismaz 100 objektus (var arī no faila) un saites starp tiem.
+CREATE (ubuntu22:os { name: "Ubuntu 22"}),
+(kubuntu22:os {name:"Kubuntu 22"}),
+(xubuntu22:os {name:"Xubuntu 22"}),
+(mint:os {name:"Mint 21"}),
+(steam:os {name:"Steam OS"}),
+(rasbian:os {name:"Rasbian x86"}),
+(win98:os {name:"Windows 98"}),
+(winxp:os {name:"Windows XP"}),
+(win7:os {name:"Windows 7"}),
+(win10:os {name:"Windows 10"}),
+(win11:os {name:"Windows 11"}),
+(athlonxp2400:cpu {name: "Athlon XP 2400+", year: 2003, cores: 1, threads: 1}),
+(athlonxp1800:cpu {name: "Athlon XP 1800+", year: 2003, cores: 1, threads: 1}),
+(athlon4450:cpu {name: "Athlon 4450B", year: 2007, cores: 2, threads: 2}),
+(celeron16:cpu {name: "Celeron 1.6Ghz", year: 2004, cores: 1, threads: 1}),
+(celeron:cpu {name: "Celeron", year: 2005, cores: 1, threads: 1}),
+(celerond:cpu {name: "CeleronD", year: 2006, cores: 1, threads: 1}),
+(pentium4:cpu {name: "Pentium 4", year: 2005, cores: 1, threads: 1}),
+(i32120:cpu {name: "i3 2120", year: 2013, cores: 2, threads: 4}),
+(a8:cpu {name: "A8 7600", year:2007, cores: 4, threads: 4}),
+(q6600:cpu {name: "Q6600", year:2007, cores: 4, threads: 4}),
+(u7300:cpu {name: "U7300", year:2007, cores: 2, threads: 2}),
+(e2140:cpu {name: "E2140", year:2007, cores: 2, threads: 2}),
+(e8300:cpu {name: "E8300", year:2007, cores: 2, threads: 2}),
+(e4600:cpu {name: "E4600", year:2007, cores: 2, threads: 2}),
+(i5750:cpu {name: "i5 750", year:2009, cores: 4, threads: 4}),
+(i54590:cpu {name: "i5 4590", year:2013, cores: 4, threads: 4}),
+(i33120:cpu {name: "i3 3120", year:2009, cores: 2, threads: 4}),
+(i74770:cpu {name: "i7 4770", year:2013, cores:4, threads: 8}),
+(g5700:cpu {name: "Ryzen 7 5700G", year:2021, cores:8, threads: 16}),
+(intel:cpuman {name: "Intel"}),
+(amd:cpuman {name: "AMD"}),
+(nvidia:gpuman {name: "Nvidia"}),
+(msi:moboman {name:"MSI"}),
+(dfii:moboman {name:"DFII Ultra"}),
+(asus:moboman {name:"ASUS"}),
+(acer:moboman {name:"Acer"}),
+(ecs:moboman {name:"ECS"}),
+(lenovo:moboman {name:"Lenovo"}),
+(hp:moboman {name:"HP"}),
+(dell:moboman {name:"Dell"}),
+(asrock:moboman {name:"Asrock"}),
+(abit:moboman {name:"Abit"}),
+(aopen:moboman {name:"Aopen"}),
+(gigabyte:moboman {name:"Gigabyte"}),
+(fujitsu:moboman {name:"Fujitsu"}),
+(valve:moboman {name:"Valve"}),
+(b55:mobo {name:"B55"}),
+(gzt945:mobo {name:"GZT-945"}),
+(msi66:mobo {name:"MSI 66"}),
+(m55:mobo {name:"M55"}),
+(dc5850:mobo {name:"DC 5850"}),
+(think:mobo {name:"Thinkcentre"}),
+(veriton:mobo {name:"Veriton"}),
+(mx4gvr:mobo {name:"MX4GVR"}),
+(ga43:mobo {name:"GA-P43-ES3G"}),
+(deluxe:mobo {name:"Deluxe"}),
+(deck:mobo {name:"Steam Deck"}),
+(p4i:mobo {name:"P4iu55G"}),
+(lg95:mobo {name:"LG - 95"}),
+(eg315:mobo {name:"EG - 31"}),
+(z400:mobo {name:"Z400"}),
+(wd40:hdd {name:"WD 40GB", year:2007}),
+(wdred:hdd {name:"WD Red 4TB", year:2019}),
+(wd500:hdd {name:"WD Blue 500GB", year:2010}),
+(sea4tb:hdd {name:"Seagate 4TB", year:2021}),
+(sea500:hdd {name:"Seagete 500GB", year:2020}),
+(gen500:hdd {name:"Generic HDD 500GB", year:2015}),
+(wdgreen:ssd {name:"WD Green 240GB"}),
+(king500:ssd {name:"Kingston 500"}),
+(king240:ssd {name:"Kingston 240"}),
+(king120:ssd {name:"Kingston 120"}),
+(int240:ssd {name:"Intenso 240"}),
+(int120:ssd {name:"Intenso 240"}),
+(king8gb:sd {name:"Kingston 8GB SD"}),
+(wing:ssd {name:"WingMaster 32GB"}),
+(gtx750ti:gpu {name:"GTX 750ti"}),
+(gtx10603gb:gpu {name:"GTX 1060 3GB", mem:4096, gddr:5}),
+(gtx10606gb:gpu {name:"GTX 1060 6GB", mem:4096, gddr:5}),
+(gtx980:gpu {name:"GTX 980", mem:4096, gddr:5}),
+(gtx1080:gpu {name:"GTX 1080", mem:8192, gddr:5}),
+(fx1800:gpu {name:"Quadro FX1800"}),
+(gts250:gpu {name:"GTS 250"}),
+(rx6400:gpu {name:"RX 6400"}),
+(gt640:gpu {name:"GT 640"}),
+(gt9800:gpu {name:"GT 9800"}),
+(mx4000:gpu {name:"MX 4000"}),
+(q4000:gpu {name:"Quadro 4000"}),
+(hd4350:gpu {name:"HD 4350"}),
+(hd3650:gpu {name:"HD 3650"}),
+(i4000:gpu {name:"Intel 4000 Graphics"}),
+(i2000:gpu {name:"Intel 2000 Graphics"}),
+(iextreme:gpu {name:"Intel Extreme Graphics"}),
+(ddr1:ram {name:"DDR1"}),
+(ddr2:ram {name:"DDR2"}),
+(ddr3:ram {name:"DDR3"}),
+(ddr4:ram {name:"DDR4"}),
+(psu300:psu {name:"300W PSU"}),
+(psu400:psu {name:"400W PSU"}),
+(psu450:psu {name:"450W PSU"}),
+(psu500:psu {name:"500W PSU"}),
+(psu750:psu {name:"750W PSU"}),
+(g5700) - [:ProducedBy] -> (amd),
+(e4600) - [:ProducedBy] -> (intel),
+(q6600) - [:ProducedBy] -> (intel),
+(i5750) - [:ProducedBy] -> (intel),
+(i74770) - [:ProducedBy] -> (intel),
+(gtx980) - [:ProducedBy] -> (nvidia),
+(gtx1080) - [:ProducedBy] -> (nvidia),
+(e4600) - [:ProducedBy] -> (intel),
+(q6600) - [:ProducedBy] -> (intel),
+(i5750) - [:ProducedBy] -> (intel),
+(i74770) - [:ProducedBy] -> (intel),
+(gtx980) - [:ProducedBy] -> (nvidia),
+(gtx1080) - [:ProducedBy] -> (nvidia),
+(i4000) - [:ProducedBy] -> (intel),
+(iextreme) - [:ProducedBy] -> (intel),
+(i2000) - [:ProducedBy] -> (intel),
+(gt640) - [:ProducedBy] -> (nvidia),
+(hd3650) - [:ProducedBy] -> (amd),
+(hd4350) - [:ProducedBy] -> (amd),
+(fx1800) - [:ProducedBy] -> (nvidia),
+(athlonxp1800) - [:ProducedBy] -> (amd),
+(athlonxp2400) - [:ProducedBy] -> (amd),
+(gtx1080) - [:Requires] -> (psu750),
+(gtx10603gb) - [:Requires] -> (psu500),
+(gts250) - [:Requires] -> (psu450),
+(hd3650) - [:Requires] -> (psu300),
+(msi66) - [:ProducedBy] -> (msi),
+(lg95) - [:ProducedBy] -> (dfii),
+(deluxe) - [:ProducedBy] -> (asus),
+(veriton) - [:ProducedBy] -> (acer),
+(gzt945) - [:ProducedBy] -> (ecs),
+(think) - [:ProducedBy] -> (lenovo),
+(z400) - [:ProducedBy] -> (hp),
+(dc5850) - [:ProducedBy] -> (dell),
+(p4i) - [:ProducedBy] -> (asrock),
+(mx4gvr) - [:ProducedBy] -> (aopen),
+(ga43) - [:ProducedBy] -> (gigabyte),
+(m55) - [:ProducedBy] -> (fujitsu),
+(deck) - [:ProducedBy] -> (valve),
+(b55) - [:ProducedBy] -> (dfii),
+(eg315) - [:ProducedBy] -> (abit),
+(ubuntu22) - [:Installed] -> (sea500),
+(win10) - [:Installed] -> (sea4tb),
+(win11) - [:Installed] -> (wdred),
+(ubuntu22) - [:Installed] -> (wd500),
+(winxp) - [:Installed] -> (wd40),
+(win11) - [:Installed] -> (gen500),
+(xubuntu22) - [:Installed] -> (king500),
+(win98) - [:Installed] -> (king8gb),
+(win7) - [:Installed] -> (king120),
+(steam) - [:Installed] -> (int240),
+(kubuntu) - [:Installed] -> (int120),
+(rasbian) - [:Installed] -> (king8gb),
+(mint) - [:Installed] -> (wing),
+(sea500) - [:Connected] -> (b55),
+(sea4tb) - [:Connected] -> (think),
+(int120) - [:Connected] -> (z400),
+(int240) - [:Connected] -> (ga43),
+(wd40) - [:Connected] -> (m55),
+(wdgreen) - [:Connected] -> (eg315),
+(king120) - [:Connected] -> (deck),
+(king240) - [:Connected] -> (mx4000),
+(king500) - [:Connected] -> (p4i),
+(king8gb) - [:Connected] -> (gzt945),
+(msi66) - [:Requires] -> (ddr4),
+(lg95) - [:Requires] -> (ddr2),
+(deluxe) - [:Requires] -> (ddr2),
+(veriton) - [:Requires] -> (ddr3),
+(gzt945) - [:Requires] -> (ddr2),
+(think) - [:Requires] -> (ddr3),
+(z400) - [:Requires] -> (ddr3),
+(dc5850) - [:Requires] -> (ddr2),
+(p4i) - [:Requires] -> (ddr1),
+(mx4gvr) - [:Requires] -> (ddr1),
+(ga43) - [:Requires] -> (ddr2),
+(m55) - [:Requires] -> (ddr3),
+(deck) - [:Requires] -> (ddr4),
+(b55) - [:Requires] -> (ddr4),
+(eg315) - [:Requires] -> (ddr1),
+(g5700) - [:Socket] -> (b55),
+(e4600) - [:Socket] -> (mx4gvr),
+(q6600) - [:Socket] -> (ga43),
+(i5750) - [:Socket] -> (z400),
+(i74770) - [:Socket] -> (msi66),
+(e4600) - [:Socket] -> (p4i),
+(q6600) - [:Socket] -> (deluxe),
+(i5750) - [:Socket] -> (m55),
+(gtx1080) - [:Pcie] -> (b55)
+
+
+#Atlasa visu:
+MATCH(n) RETURN(n)
+#Izveidot skriptu, kas no jūsu izveidotās datu bāzes datiem veido vismaz 5 sarežģītas atskaites.
+#Atskaite, kas atlasa vienu rakstu pēc primārās atslēgas, ir vienkārša atlase un netiks vērtēta.
+#1 Kurā mātesplatē ir CPU, kas lieto DDR2?
+MATCH (c:cpu) - [u:Socket] - (w)- [:Requires]-(r:ram)
+where r.name="DDR2"
+RETURN c, u, w
+
+#Atlasa CPU, mātesplati un sssd, ja mātesplate ir "Z400" vai CPU ir "Q6600" 
+MATCH (c:cpu) - [:Socket] - (w)- [:Connected]-(s:ssd) 
+where w.name="Z400" OR c.name="Q6600"
+RETURN c, w,s
+
+#2 Atlasa mātesplates, kurās ir CPU, ko ražo Intel.
+MATCH (m:mobo) - [:Socket] - (g) - [:ProducedBy] - (i:cpuman)
+WHERE i.name="Intel"
+RETURN m
+
+#3 Atlasa mātesplates ar 2021 ražotu procesoru no AMD.
+MATCH (m:mobo) - [:Socket] - (g) - [:ProducedBy] - (i:cpuman)
+WHERE i.name="AMD" AND g.year=2021
+RETURN m
+#4
+MATCH  (h:hdd) - [:Connected] - (m:mobo) - [:Socket] - (g:cpu) 
+RETURN h, m, g
+#5 Atlasa OS, kas instalēts uz HDD, kurš pievienots mātesplatei ar procesoru.
+MATCH (o:os) - [:Installed] - (h:hdd) - [:Connected] - (m:mobo) - [:Socket] - (g:cpu) 
+RETURN o,h, m, g
+Var būt viena atskaite, kas atlasa rakstu kopu pēc sarežģītiem nosacījumiem 
+(vismaz 3 atlases nosacījumi, kas veido loģisku izteiksmi).
+Vismaz 3 atskaitēm ir jāsatur datu grupēšana un kopsavilkumu rēķināšana (sum, avg, min, max).
+#1 Vidējais kodolu skaits procesoriem
+MATCH (n:cpu)
+RETURN avg(n.cores)
+#2 Maksimālais kodolu skaits procesoram
+MATCH (p:cpu)
+RETURN max(p.cores)
+#3 Saskaita visus CPU pavedienus kopā.
+MATCH (p:cpu)
+RETURN sum(p.threads)
+Vismaz 3 atskaitēm jāsatur datu kārtošana. 
+#1 Sakārto CPU nosaukumus pēc kodolu skaita dilstošā secībā.
+MATCH (n:cpu)
+RETURN n.name, n.cores
+ORDER BY  n.cores desc
+#2 Sakārto CPU nosaukumus pēc pavedienu skaita dilstošā secībā.
+MATCH (n:cpu)
+RETURN n.name, n.threads
+ORDER BY n.threads desc, n.name
+#3 Sakārto procesorus pēc to gada
+MATCH (n:cpu)
+RETURN n.year, n.name
+ORDER BY n.year
+
+
+
+Vismaz 2 atskaitēm jāsatur TOP n datu atlase.
+#1 Atlasa 2 CPU ar lielāko pavedienu skaitu
+MATCH (n:cpu)
+RETURN n.name, n.threads
+ORDER BY n.threads desc, n.name
+limit 2
+#2 Atlasa pirmos 6 CPU nosakumus pēc alfabēta
+MATCH (n:cpu)
+RETURN n.name, n.cores
+ORDER BY n.cores, n.name [0..5]
+
+
+#Atlasīt visu
+MATCH(n) RETURN(n)
+#Dzēst visu
+MATCH (n)
+DETACH DELETE n
