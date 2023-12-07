@@ -1,3 +1,4 @@
+#https://www.comparitech.com/blog/information-security/md5-algorithm-with-examples/
 def string2bin(plaintext):
 	#print()
 	res = ''.join(format(ord(i), '08b') for i in plain_text)
@@ -19,6 +20,59 @@ def hex2bin(hex_num):
 		binary += hex_dict[digit]
 	#print(binary)
 	return binary
+def bin2hex(n):
+    # convert binary to int
+    num = int(n, 2)
+    # convert int to hexadecimal
+    hex_num = format(num, 'x')
+    return(hex_num)
+def ANDfunction(x,y):
+	if(x==y):
+		return '1'
+	else:
+		return '0'
+def ORfunction(x,y):
+	if(x!=y):
+		return '1'
+	else:
+		return '0'
+def NOTfunction(x):
+	if(x==1):
+		return '0'
+	else:
+		return '1'
+def ffunction(B,C,D):
+	arr=[]
+	arr2=[]
+	arr3=[]
+	arr4=[]
+	for i in range(32):
+		arr.append(ANDfunction(B[i],C[i]))
+	for i in range(32):
+		arr2.append(NOTfunction(B[i]))
+	for i in range(32):
+		arr3.append(ANDfunction(arr2[i],D[i]))
+	for i in range(32):
+		arr4.append(ORfunction(arr[i],arr3[i]))
+
+	return arr4
+def hexCheck(arr):
+	for i in range(8):
+		print(bin2hex((arr[i*4])+(arr[i*4+1])+(arr[i*4+2])+(arr[i*4+3])))
+
+def modSum(a,b):
+	c=[]
+	for i in range(32):
+		c.append('0')
+	for i in range(31,-1,-1):
+		x=((int(a[i])+int(b[i])+int(c[i])))
+		c[i]=str(x%2)
+		if((i>0)and(x>1)):
+		    c[i-1]=1
+	
+	return c
+
+	
 #plain_text="KINO"
 plain_text="They are deterministic"
 print("The message is : " + str(plain_text))
@@ -42,7 +96,7 @@ for y in range(l_bin2, 64):
 	res=res+'0'
 res=res+l_bin
 
-print(len(res))	
+print(len(res))	#M
 
 print("The binary value is:", res)
   
@@ -61,11 +115,34 @@ print(A_bin)
 print(B_bin)
 print(C_bin)
 print(D_bin)
-arr=[]
-for i in res:
-	#print(i)
-	arr.append(i)
-print("Arr=")
+
+
+#M 2D masīvs 
+rows, cols = (16, 32)
+arr = [[0]*cols]*rows
+for i in range(16):
+	for j in range(32):
+		#print(i,j)
+		arr[i][j]=res[i*32+j]
+
+arr_F=(ffunction(B_bin, C_bin, D_bin))
+hexCheck(arr_F)
+arr_mS=(modSum(A_bin,arr_F))
+print(arr_mS)
+m0=[]
+for i in range(32):
+	m0.append(arr[0][i])
+arr_MS=(modSum(m0,arr_mS))
+print(arr_MS)
+#hexCheck(arr_MS)
+
+
+#print(type(res))
+#for i in range(8):
+#	print(bin2hex((arr_F[i*4])+(arr_F[i*4+1])+(arr_F[i*4+2])+(arr_F[i*4+3])))
+
+
+#print(bin2hex('1000'))
 
 #second : M1, M6, M11, M0, M5, M10, M15, M4, M9, M14, M3, M8, M13, M2, M7, M12
 #third : M5, M8, M11, M14, M1, M4, M7, M10, M13, M0, M3, M6, M9, M12, M15, M2
@@ -138,6 +215,30 @@ print("Arr=")
     K62 – BD3AF235
     K63 – 2AD7D2BB
     K64 – EB86D391
+
+    Round one
+        S1, S5, S9, S13 – 7
+        S2, S6, S10, S14 – 12
+        S3, S7, S11, S15 – 17
+        S4, S8, S12, S16, – 22
+
+    Round two
+        S17, S21, S25, S29 – 5
+        S18, S22, S26, S30 – 9
+        S19, S23, S27, S31 – 14
+        S20, S24, S28, S32 – 20
+
+    Round three
+        S33, S37, S41, S45 – 4
+        S34, S38, S42, S46 – 11
+        S35, S39, S43, S47 – 16
+        S36, S40, S44, S48 – 13
+
+    Round four
+        S49, S53, S57, S61 – 6
+        S50, S54, S58, S62 – 10
+        S51, S55, S59, S63 – 15
+        S52, S56, S60, S64 – 21
 
 rows, cols = (32, 16)
 # method 2 1st approach
