@@ -66,7 +66,7 @@ def modSum(a,b):
 		c.append('0')
 	for i in range(31,-1,-1):
 		x=((int(a[i])+int(b[i])+int(c[i])))
-		c[i]=str(x%2)
+		c[i]=(x%2)
 		if((i>0)and(x>1)):
 		    c[i-1]=1
 	
@@ -134,15 +134,12 @@ for i in range(32):
 	m0.append(arr[0][i])
 arr_MS=(modSum(m0,arr_mS))
 print(arr_MS)
-#hexCheck(arr_MS)
 
+num=[]
+for i in range(32):
+    num.append( "{}".format(arr_MS[i]))
+hexCheck(num)
 
-#print(type(res))
-#for i in range(8):
-#	print(bin2hex((arr_F[i*4])+(arr_F[i*4+1])+(arr_F[i*4+2])+(arr_F[i*4+3])))
-
-
-#print(bin2hex('1000'))
 
 #second : M1, M6, M11, M0, M5, M10, M15, M4, M9, M14, M3, M8, M13, M2, M7, M12
 #third : M5, M8, M11, M14, M1, M4, M7, M10, M13, M0, M3, M6, M9, M12, M15, M2
