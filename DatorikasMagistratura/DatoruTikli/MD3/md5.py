@@ -3,6 +3,8 @@ def string2bin(plaintext):
 	#print()
 	res = ''.join(format(ord(i), '08b') for i in plain_text)
 	return res
+
+
 def bin2string(binres):
 	str = ""
 	for i in range(0, len(binres), 8):
@@ -18,6 +20,7 @@ def hex2bin(hex_num):
 	binary = ''
 	for digit in hex_num:
 		binary += hex_dict[digit]
+	binary=list(binary)
 	#print(binary)
 	return binary
 def bin2hex(n):
@@ -83,7 +86,16 @@ def leftBitShift(arr,n):
 	print("tmp=", tmp)
 	print(arr)
     #return 0
-	
+def endShuffle(A,B,C,D,E):
+	for i in range (32):
+		A[i]=D[i]
+		D[i]=C[i]
+		C[i]=B[i]
+		B[i]=E[i]
+    #B=arr_mSB
+    #C=B
+    #D=C
+	#return 0
 #plain_text="KINO"
 plain_text="They are deterministic"
 print("The message is : " + str(plain_text))
@@ -122,10 +134,13 @@ B_bin=(hex2bin("89")+hex2bin("ab")+hex2bin("cd")+hex2bin("ef"))
 C_bin=(hex2bin("fe")+hex2bin("dc")+hex2bin("ba")+hex2bin("98"))
 #          word D: 76 54 32 10
 D_bin=(hex2bin("76")+hex2bin("54")+hex2bin("32")+hex2bin("10"))
+
 print(A_bin)
 print(B_bin)
 print(C_bin)
 print(D_bin)
+
+
 
 
 #M 2D masīvs 
@@ -180,7 +195,34 @@ num=[]
 for i in range(32):
     num.append( "{}".format(arr_mSB[i]))
 hexCheck(num)
-### 63 more operations
+#A=D
+#B=arr_mSB
+#C=B
+#D=C
+
+endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
+num=[]
+for i in range(32):
+    num.append( "{}".format(A_bin[i]))
+print("A=")
+hexCheck(num)
+num=[]
+for i in range(32):
+    num.append( "{}".format(B_bin[i]))
+print("B=")
+hexCheck(num)
+num=[]
+for i in range(32):
+    num.append( "{}".format(C_bin[i]))
+print("C=")
+hexCheck(num)
+num=[]
+for i in range(32):
+    num.append( "{}".format(D_bin[i]))
+print("D=")
+hexCheck(num)
+
+### end of 1 operation 63 more operations
 
 
 """
