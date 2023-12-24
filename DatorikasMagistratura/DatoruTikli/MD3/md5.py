@@ -24,20 +24,13 @@ def hex2bin(hex_num):#Takes only 2 letters/numbers like "ff" or "00" LOWERCASE!!
 	#print(binary)
 	return binary
 def fullHex2Bin(b,arr):
-	#arr=[]
-	
-	#b = "54686579"
-    #A_bin=(hex2bin("01")+hex2bin("23")+hex2bin("45")+hex2bin("67"))
 	for i in range(4):
 		tmp=[]
-		tmp=hex2bin(b[0+i:2+i].lower())
+		tmp=hex2bin(b[0+i*2:2+i*2].lower())
 		for j in range(8):
 			arr.append(tmp[j])
 	print(arr)
-	#b=list(b)
-	#return b
-	
-	#return arr
+
 def bin2hex(n):
     # convert binary to int
     num = int(n, 2)
@@ -141,6 +134,11 @@ print("The binary value is:", res)
 # print binary data
 str=bin2string(res)
 print("Plain text: ", str)
+A_bin=[]
+B_bin=[]
+C_bin=[]
+D_bin=[]
+
 #		  word A: 01 23 45 67
 A_bin=(hex2bin("01")+hex2bin("23")+hex2bin("45")+hex2bin("67"))
 #          word B: 89 ab cd ef
@@ -150,7 +148,7 @@ C_bin=(hex2bin("fe")+hex2bin("dc")+hex2bin("ba")+hex2bin("98"))
 #          word D: 76 54 32 10
 D_bin=(hex2bin("76")+hex2bin("54")+hex2bin("32")+hex2bin("10"))
 
-#print(A_bin)
+print("Abin=",A_bin)
 #print(B_bin)
 #print(C_bin)
 #print(D_bin)
@@ -223,10 +221,16 @@ print("D=")
 hexCheck(num)
 
 ### end of 1 operation 63 more operations
-be = "54686579"
+be = "01234567"
+#"01234567"
 bearr=[]
 fullHex2Bin(be, bearr)
 print("be=", bearr)
+num=[]
+for i in range(32):
+    num.append( "{}".format(bearr[i]))
+print("Bear=")
+hexCheck(num)
 
 """
 
