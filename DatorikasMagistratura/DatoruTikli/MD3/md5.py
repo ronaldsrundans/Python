@@ -15,7 +15,7 @@ def bin2string(binres):
 def num2bin(num):
 	x=bin(num)[2:]
 	return x
-def hex2bin(hex_num):
+def hex2bin(hex_num):#Takes only 2 letters/numbers like "ff" or "00" LOWERCASE!!!
 	hex_dict = {'0': '0000', '1': '0001', '2': '0010', '3': '0011', '4': '0100', '5': '0101', '6': '0110', '7': '0111', '8': '1000', '9': '1001', 'a': '1010', 'b': '1011', 'c': '1100', 'd': '1101', 'e': '1110', 'f': '1111'}
 	binary = ''
 	for digit in hex_num:
@@ -23,6 +23,21 @@ def hex2bin(hex_num):
 	binary=list(binary)
 	#print(binary)
 	return binary
+def fullHex2Bin(b,arr):
+	#arr=[]
+	
+	#b = "54686579"
+    #A_bin=(hex2bin("01")+hex2bin("23")+hex2bin("45")+hex2bin("67"))
+	for i in range(4):
+		tmp=[]
+		tmp=hex2bin(b[0+i:2+i].lower())
+		for j in range(8):
+			arr.append(tmp[j])
+	print(arr)
+	#b=list(b)
+	#return b
+	
+	#return arr
 def bin2hex(n):
     # convert binary to int
     num = int(n, 2)
@@ -64,8 +79,8 @@ def hexCheck(arr):
 
 def modSum(a,b):
 	c=[]
-	print("modSum a", a)
-	print("modSum b", b)
+	#print("modSum a", a)
+	#print("modSum b", b)
 	for i in range(32):
 		c.append('0')
 	for i in range(31,-1,-1):
@@ -76,15 +91,15 @@ def modSum(a,b):
 	
 	return c
 def leftBitShift(arr,n):
-	print(arr)
+	#print(arr)
 	tmp=[]
 	for i in range(n):
 		tmp.append(arr[i])
 	for i in range(n):
 		arr.pop(0)
 		arr.append(tmp[i])
-	print("tmp=", tmp)
-	print(arr)
+	#print("tmp=", tmp)
+	#print(arr)
     #return 0
 def endShuffle(A,B,C,D,E):
 	for i in range (32):
@@ -135,70 +150,55 @@ C_bin=(hex2bin("fe")+hex2bin("dc")+hex2bin("ba")+hex2bin("98"))
 #          word D: 76 54 32 10
 D_bin=(hex2bin("76")+hex2bin("54")+hex2bin("32")+hex2bin("10"))
 
-print(A_bin)
-print(B_bin)
-print(C_bin)
-print(D_bin)
+#print(A_bin)
+#print(B_bin)
+#print(C_bin)
+#print(D_bin)
 
 
 
 
 #M 2D masīvs 
+"""
 rows, cols = (16, 32)
 arr = [[0]*cols]*rows
 for i in range(16):
 	for j in range(32):
 		#print(i,j)
 		arr[i][j]=res[i*32+j]
+"""
+
 
 arr_F=(ffunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
 #print("F function(arr_F)")
 #hexCheck(arr_F)
-print("A_bin")
-print(A_bin)
-print(type(A_bin))
+#print("A_bin")
+#print(A_bin)
+#print(type(A_bin))
 
-print("arr_F")
-print(arr_F)
+#print("arr_F")
+#print(arr_F)
 arr_mS=(modSum(A_bin,arr_F))# ffffffff
-print("mod Sum function")
-print("arr_mS=",arr_mS)
+#print("mod Sum function")
+#print("arr_mS=",arr_mS)
 #Fix hex error
-num=[]
-for i in range(32):
-    num.append( "{}".format(arr_mS[i]))
-hexCheck(num)
+
 #End of Fix hex error
 M0_bin=(hex2bin("54")+hex2bin("68")+hex2bin("65")+hex2bin("79"))
 #          word  M0 – 54686579
 arr_mS0=(modSum(M0_bin,arr_mS))# 54686578
-print("arr_mS0=",arr_mS0)
-num=[]
-for i in range(32):
-    num.append( "{}".format(arr_mS0[i]))
-hexCheck(num)
+#print("arr_mS0=",arr_mS0)
+
 
 K1_bin=(hex2bin("d7")+hex2bin("6a")+hex2bin("a4")+hex2bin("78"))
 #          word  K1 – D76AA478
 arr_mK1=(modSum(K1_bin,arr_mS0))# 2bd309f0
-num=[]
-for i in range(32):
-    num.append( "{}".format(arr_mK1[i]))
-hexCheck(num)
+
 leftBitShift(arr_mK1,7) #e984f815
-num=[]
-for i in range(32):
-    num.append( "{}".format(arr_mK1[i]))
-hexCheck(num)
+
 arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
-num=[]
-for i in range(32):
-    num.append( "{}".format(arr_mSB[i]))
-hexCheck(num)
-#A=D
-#B=arr_mSB
-#C=B
-#D=C
+
+
 
 endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
 num=[]
@@ -223,7 +223,10 @@ print("D=")
 hexCheck(num)
 
 ### end of 1 operation 63 more operations
-
+be = "54686579"
+bearr=[]
+fullHex2Bin(be, bearr)
+print("be=", bearr)
 
 """
 
