@@ -54,7 +54,6 @@ def ffunction(B,C,D):
 		arr3.append(ANDfunction(arr2[i],D[i]))
 	for i in range(32):
 		arr4.append(ORfunction(arr[i],arr3[i]))
-
 	return arr4
 def hexCheck(arr):
 	for i in range(8):
@@ -62,6 +61,8 @@ def hexCheck(arr):
 
 def modSum(a,b):
 	c=[]
+	print("modSum a", a)
+	print("modSum b", b)
 	for i in range(32):
 		c.append('0')
 	for i in range(31,-1,-1):
@@ -71,7 +72,17 @@ def modSum(a,b):
 		    c[i-1]=1
 	
 	return c
-
+def leftBitShift(arr,n):
+	print(arr)
+	tmp=[]
+	for i in range(n):
+		tmp.append(arr[i])
+	for i in range(n):
+		arr.pop(0)
+		arr.append(tmp[i])
+	print("tmp=", tmp)
+	print(arr)
+    #return 0
 	
 #plain_text="KINO"
 plain_text="They are deterministic"
@@ -128,22 +139,80 @@ for i in range(16):
 arr_F=(ffunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
 #print("F function(arr_F)")
 #hexCheck(arr_F)
-arr_mS=(modSum(A_bin,arr_F))
-print("F function")
-#nhexCheck(arr_mS)
+print("A_bin")
+print(A_bin)
+print(type(A_bin))
 
-print(arr_mS)
+print("arr_F")
+print(arr_F)
+arr_mS=(modSum(A_bin,arr_F))# ffffffff
+print("mod Sum function")
+print("arr_mS=",arr_mS)
+#Fix hex error
+num=[]
+for i in range(32):
+    num.append( "{}".format(arr_mS[i]))
+hexCheck(num)
+#End of Fix hex error
+M0_bin=(hex2bin("54")+hex2bin("68")+hex2bin("65")+hex2bin("79"))
+#          word  M0 – 54686579
+arr_mS0=(modSum(M0_bin,arr_mS))# 54686578
+print("arr_mS0=",arr_mS0)
+num=[]
+for i in range(32):
+    num.append( "{}".format(arr_mS0[i]))
+hexCheck(num)
+
+K1_bin=(hex2bin("d7")+hex2bin("6a")+hex2bin("a4")+hex2bin("78"))
+#          word  K1 – D76AA478
+arr_mK1=(modSum(K1_bin,arr_mS0))# 2bd309f0
+num=[]
+for i in range(32):
+    num.append( "{}".format(arr_mK1[i]))
+hexCheck(num)
+leftBitShift(arr_mK1,7) #e984f815
+num=[]
+for i in range(32):
+    num.append( "{}".format(arr_mK1[i]))
+hexCheck(num)
+arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
+num=[]
+for i in range(32):
+    num.append( "{}".format(arr_mSB[i]))
+hexCheck(num)
+### 63 more operations
+
+
+"""
+
+
+
+
+    M0 – 54686579
+    M1 – 20617265
+    M2 – 20646574
+    M3 – 65726D69
+    M4 – 6E697374
+    M5 – 69638000
+    M6 – 00000000
+    M7 – 00000000
+    M8 – 00000000
+    M9 – 00000000
+    M10 – 00000000
+    M11 – 00000000
+    M12 – 00000000
+    M13 – 00000000
+    M14 – 00000000
+    M15 – 000000B0
+
 m0=[]
 for i in range(32):
 	m0.append(arr[0][i])
-arr_MS=(modSum(m0,arr_mS))
+arr_MS=(modSum(arr_mS,m0))
 print(arr_MS)
 
-num=[]
-for i in range(32):
-    num.append( "{}".format(arr_MS[i]))
-hexCheck(num)#jābut ffffffff
 
+"""
 
 #second : M1, M6, M11, M0, M5, M10, M15, M4, M9, M14, M3, M8, M13, M2, M7, M12
 #third : M5, M8, M11, M14, M1, M4, M7, M10, M13, M0, M3, M6, M9, M12, M15, M2
