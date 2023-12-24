@@ -125,9 +125,13 @@ for i in range(16):
 		#print(i,j)
 		arr[i][j]=res[i*32+j]
 
-arr_F=(ffunction(B_bin, C_bin, D_bin))
-hexCheck(arr_F)
+arr_F=(ffunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
+#print("F function(arr_F)")
+#hexCheck(arr_F)
 arr_mS=(modSum(A_bin,arr_F))
+print("F function")
+#nhexCheck(arr_mS)
+
 print(arr_mS)
 m0=[]
 for i in range(32):
@@ -138,7 +142,7 @@ print(arr_MS)
 num=[]
 for i in range(32):
     num.append( "{}".format(arr_MS[i]))
-hexCheck(num)
+hexCheck(num)#jābut ffffffff
 
 
 #second : M1, M6, M11, M0, M5, M10, M15, M4, M9, M14, M3, M8, M13, M2, M7, M12
