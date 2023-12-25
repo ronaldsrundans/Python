@@ -230,6 +230,10 @@ for r in range(0,16):
 
 
 ### end of 1 operation 63 more operations
+fullHex2Bin("799d1352", A_bin)
+fullHex2Bin("2c34dfa2", B_bin)
+fullHex2Bin("de1673be", C_bin)
+fullHex2Bin("4b976282", D_bin)
 
 #round 2
 for r in range(16,33):
@@ -271,12 +275,21 @@ for r in range(49,64):
 	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
 	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
 	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
+#OK
+A_bin=[]
+B_bin=[]
+C_bin=[]
+D_bin=[]
+fullHex2Bin("60cdceb1", A_bin)
+fullHex2Bin("7d502063", B_bin)
+fullHex2Bin("8b3d715d", C_bin)
+fullHex2Bin("1de3a739", D_bin)
 
 A_bin=(modSum(A_bin,A_bin0))
 B_bin=(modSum(B_bin,B_bin0))
 C_bin=(modSum(C_bin,C_bin0))
 D_bin=(modSum(D_bin,D_bin0))
-
+#OK
 
 num=[]
 for i in range(32):
