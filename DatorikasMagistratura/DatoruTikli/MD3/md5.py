@@ -136,6 +136,11 @@ print("The binary value is:", res)
 str=bin2string(res)
 print("Plain text: ", str)
 
+
+Karr=["D76AA478","E8C7B756","242070DB","C1BDCEEE","F57COFA","4787C62A","A8304613","FD469501","698098D8","8B44F7AF","FFFF5BB1","895CD7BE","6B901122","FD987193","A679438E","49B40821","F61E2562","C040B340","265E5A51","E9B6C7AA","D62F105D","02441453","D8A1E681","E7D3FBC8","21E1CDE6","C33707D6","F4D50D87","455A14ED","A9E3E905","FCEFA3F8","676F02D9","8D2A4C8A","FFFA3942","8771F681","699D6122","FDE5380C","A4BEEA44","4BDECFA9","F6BB4B60","BEBFBC70","289B7EC6","EAA127FA","D4EF3085","04881D05","D9D4D039","E6DB99E5", "1FA27CF8","C4AC5665","F4292244","432AFF97","AB9423A7","FC93A039","655B59C3","8F0CCC92","FFEFF47D","85845DD1","6FA87E4F","FE2CE6E0","A3014314","4E0811A1","F7537E82","BD3AF235","2AD7D2BB","EB86D391"]
+Sarr=[7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,4,11,16,13,4,11,16,13,4,11,16,13,4,11,16,13,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21]
+Marr=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,1,6,11,0,5,10,15,4,9,14,3,8,13,2,7,12,5,8,11,14,1,4,7,10,13,0,3,6,9,12,15,2,0,7,14,5,12,3,10,1,8,15,6,13,4,11,2,9]
+
 A_bin=[]
 B_bin=[]
 C_bin=[]
@@ -150,37 +155,30 @@ fullHex2Bin("76543210", D_bin)
 
 
 #M 2D masīvs 
-"""
+
 rows, cols = (16, 32)
-arr = [[0]*cols]*rows
+M_arr = [[0]*cols]*rows
 for i in range(16):
 	for j in range(32):
 		#print(i,j)
-		arr[i][j]=res[i*32+j]
-"""
+		M_arr[i][j]=res[i*32+j]
 
-
-arr_F=(ffunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
-arr_mS=(modSum(A_bin,arr_F))# ffffffff
-
-M_bin=[]
-fullHex2Bin("54686579", M_bin)
-arr_mS0=(modSum(M_bin,arr_mS))# 54686578
-
-K_bin=[]#K value
-#(hex2bin("d7")+hex2bin("6a")+hex2bin("a4")+hex2bin("78"))
-#          word  K1 – D76AA478
-fullHex2Bin("d76aa478", K_bin)
-
-arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
-
-leftBitShift(arr_mK1,7) #e984f815
-
-arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
+for r in range(1):
+	arr_F=(ffunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
+	arr_mS=(modSum(A_bin,arr_F))# ffffffff
+	M_bin=[]
+	fullHex2Bin("54686579", M_bin)
+	arr_mS0=(modSum(M_bin,arr_mS))# 54686578
+	K_bin=[]            #K value
+	fullHex2Bin(Karr[0], K_bin)
+	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
+	leftBitShift(arr_mK1,Sarr[0]) #e984f815
+	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
+	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
 
 
 
-endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
+
 num=[]
 for i in range(32):
     num.append( "{}".format(A_bin[i]))
@@ -254,77 +252,14 @@ print(arr_MS)
 #	print(arr[i])
 """
 
-    K1 – D76AA478
-    K2 – E8C7B756
-    K3 – 242070DB
-    K4 – C1BDCEEE
-    K5 – F57COFA
-    K6 – 4787C62A
-    K7 – A8304613
-    K8 – FD469501
-    K9 – 698098D8
-    K10 – 8B44F7AF
-    K11 – FFFF5BB1
-    K12 – 895CD7BE
-    K13 – 6B901122
-    K14 – FD987193
-    K15 – A679438E
-    K16 – 49B40821
-    K17 – F61E2562
-    K18 – C040B340
-    K19 – 265E5A51
-    K20 – E9B6C7AA
-    K21 – D62F105D
-    K22 – 02441453
-    K23 – D8A1E681
-    K24 – E7D3FBC8
-    K25 – 21E1CDE6
-    K26 – C33707D6
-    K27 – F4D50D87
-    K28 – 455A14ED
-    K29 – A9E3E905
-    K30 – FCEFA3F8
-    K31 – 676F02D9
-    K32 – 8D2A4C8A
-    K33 – FFFA3942
-    K34 – 8771F681
-    K35 – 699D6122
-    K36 – FDE5380C
-    K37– A4BEEA44
-    K38 – 4BDECFA9
-    K39 – F6BB4B60
-    K40 – BEBFBC70
-    K41 – 289B7EC6
-    K42 – EAA127FA
-    K43 – D4EF3085
-    K44 – 04881D05
-    K45 – D9D4D039
-    K46 – E6DB99E5
-    K47 – 1FA27CF8
-    K48 – C4AC5665
-    K49 – F4292244
-    K50 – 432AFF97
-    K51 – AB9423A7
-    K52 – FC93A039
-    K53 – 655B59C3
-    K54 – 8F0CCC92
-    K55 – FFEFF47D
-    K56 – 85845DD1
-    K57 – 6FA87E4F
-    K58 – FE2CE6E0
-    K59 – A3014314
-    K60 – 4E0811A1
-    K61 – F7537E82
-    K62 – BD3AF235
-    K63 – 2AD7D2BB
-    K64 – EB86D391
+
 
     Round one
         S1, S5, S9, S13 – 7
         S2, S6, S10, S14 – 12
         S3, S7, S11, S15 – 17
         S4, S8, S12, S16, – 22
-
+Sarr=[7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,4,11,16,13,4,11,16,13,4,11,16,13,4,11,16,13,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21]
     Round two
         S17, S21, S25, S29 – 5
         S18, S22, S26, S30 – 9
