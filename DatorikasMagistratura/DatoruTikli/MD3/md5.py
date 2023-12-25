@@ -1,3 +1,4 @@
+
 #https://www.comparitech.com/blog/information-security/md5-algorithm-with-examples/
 def string2bin(plaintext):
 	#print()
@@ -134,24 +135,16 @@ print("The binary value is:", res)
 # print binary data
 str=bin2string(res)
 print("Plain text: ", str)
+
 A_bin=[]
 B_bin=[]
 C_bin=[]
 D_bin=[]
+fullHex2Bin("01234567", A_bin)
+fullHex2Bin("89abcdef", B_bin)
+fullHex2Bin("fedcba98", C_bin)
+fullHex2Bin("76543210", D_bin)
 
-#		  word A: 01 23 45 67
-A_bin=(hex2bin("01")+hex2bin("23")+hex2bin("45")+hex2bin("67"))
-#          word B: 89 ab cd ef
-B_bin=(hex2bin("89")+hex2bin("ab")+hex2bin("cd")+hex2bin("ef"))
-#          word C: fe dc ba 98
-C_bin=(hex2bin("fe")+hex2bin("dc")+hex2bin("ba")+hex2bin("98"))
-#          word D: 76 54 32 10
-D_bin=(hex2bin("76")+hex2bin("54")+hex2bin("32")+hex2bin("10"))
-
-print("Abin=",A_bin)
-#print(B_bin)
-#print(C_bin)
-#print(D_bin)
 
 
 
@@ -168,29 +161,18 @@ for i in range(16):
 
 
 arr_F=(ffunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
-#print("F function(arr_F)")
-#hexCheck(arr_F)
-#print("A_bin")
-#print(A_bin)
-#print(type(A_bin))
-
-#print("arr_F")
-#print(arr_F)
 arr_mS=(modSum(A_bin,arr_F))# ffffffff
-#print("mod Sum function")
-#print("arr_mS=",arr_mS)
-#Fix hex error
 
-#End of Fix hex error
-M0_bin=(hex2bin("54")+hex2bin("68")+hex2bin("65")+hex2bin("79"))
-#          word  M0 – 54686579
-arr_mS0=(modSum(M0_bin,arr_mS))# 54686578
-#print("arr_mS0=",arr_mS0)
+M_bin=[]
+fullHex2Bin("54686579", M_bin)
+arr_mS0=(modSum(M_bin,arr_mS))# 54686578
 
-
-K1_bin=(hex2bin("d7")+hex2bin("6a")+hex2bin("a4")+hex2bin("78"))
+K_bin=[]#K value
+#(hex2bin("d7")+hex2bin("6a")+hex2bin("a4")+hex2bin("78"))
 #          word  K1 – D76AA478
-arr_mK1=(modSum(K1_bin,arr_mS0))# 2bd309f0
+fullHex2Bin("d76aa478", K_bin)
+
+arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
 
 leftBitShift(arr_mK1,7) #e984f815
 
@@ -221,6 +203,7 @@ print("D=")
 hexCheck(num)
 
 ### end of 1 operation 63 more operations
+"""
 be = "01234567"
 #"01234567"
 bearr=[]
@@ -231,6 +214,7 @@ for i in range(32):
     num.append( "{}".format(bearr[i]))
 print("Bear=")
 hexCheck(num)
+"""
 
 """
 
