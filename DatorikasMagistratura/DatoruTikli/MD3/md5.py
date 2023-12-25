@@ -1,5 +1,6 @@
 
 #https://www.comparitech.com/blog/information-security/md5-algorithm-with-examples/
+# “They are deterministic”  hash of 23db6982caef9e9152f1a5b2589e6ca3 every single time.
 def string2bin(plaintext):
 	#print()
 	res = ''.join(format(ord(i), '08b') for i in plain_text)
@@ -53,6 +54,11 @@ def NOTfunction(x):
 		return '0'
 	else:
 		return '1'
+def XORfunction(x,y):
+	if(x==y):
+		return '0'
+	else:
+		return '1'
 def ffunction(B,C,D):
 	arr=[]
 	arr2=[]
@@ -67,6 +73,45 @@ def ffunction(B,C,D):
 	for i in range(32):
 		arr4.append(ORfunction(arr[i],arr3[i]))
 	return arr4
+def gfunction(B,C,D):
+	#(B AND D)OR(C AND NOT(D))
+	arr=[]
+	arr2=[]
+	arr3=[]
+	arr4=[]
+	for i in range(32):
+		arr.append(ANDfunction(B[i],D[i]))
+	for i in range(32):
+		arr2.append(NOTfunction(D[i]))
+	for i in range(32):
+		arr3.append(ANDfunction(arr2[i],C[i]))
+	for i in range(32):
+		arr4.append(ORfunction(arr[i],arr3[i]))
+	return arr4
+def hfunction(B,C,D):
+	#(B XOR C XOR D)
+	arr=[]
+	arr2=[]
+	arr3=[]
+	for i in range(32):
+		arr.append(XORfunction(B[i],C[i]))
+	for i in range(32):
+		arr3.append(XORfunction(arr[i],D[i]))
+	return arr3
+
+def ifunction(B,C,D):
+#“C OR, BUT NOT BOTH (B OR NOT-D)
+	arr=[]
+	arr2=[]
+	arr3=[]
+	arr4=[]	
+	for i in range(32):
+		arr.append(NOTfunction(D[i]))
+	for i in range(32):
+		arr2.append(ORfunction(B[i],arr[i]))
+	for i in range(32):
+		arr3.append(XORfunction(C[i],arr2[i]))
+	return arr3
 def hexCheck(arr):
 	for i in range(8):
 		print(bin2hex((arr[i*4])+(arr[i*4+1])+(arr[i*4+2])+(arr[i*4+3])))
@@ -153,19 +198,27 @@ A_bin=[]
 B_bin=[]
 C_bin=[]
 D_bin=[]
+A_bin0=[]
+B_bin0=[]
+C_bin0=[]
+D_bin0=[]
 fullHex2Bin("01234567", A_bin)
 fullHex2Bin("89abcdef", B_bin)
 fullHex2Bin("fedcba98", C_bin)
 fullHex2Bin("76543210", D_bin)
+fullHex2Bin("01234567", A_bin0)
+fullHex2Bin("89abcdef", B_bin0)
+fullHex2Bin("fedcba98", C_bin0)
+fullHex2Bin("76543210", D_bin0)
 
 
 
 
-
-for r in range(64):
+#round 1
+for r in range(0,16):
 	arr_F=(ffunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
 	arr_mS=(modSum(A_bin,arr_F))# ffffffff
-	print("Marr=",Marr[r])
+	#print("Marr=",Marr[r])
 	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# 54686578  #M value
 	K_bin=[]           
 	fullHex2Bin(Karr[r], K_bin) #K value
@@ -178,7 +231,53 @@ for r in range(64):
 
 ### end of 1 operation 63 more operations
 
-"""
+#round 2
+for r in range(16,33):
+	arr_F=(gfunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
+	arr_mS=(modSum(A_bin,arr_F))# ffffffff
+	#print("Marr=",Marr[r])
+	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# 54686578  #M value
+	K_bin=[]           
+	fullHex2Bin(Karr[r], K_bin) #K value
+
+	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
+	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
+	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
+	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
+
+#round 3
+for r in range(33,49):
+	arr_F=(hfunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
+	arr_mS=(modSum(A_bin,arr_F))# ffffffff
+	#print("Marr=",Marr[r])
+	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# 54686578  #M value
+	K_bin=[]           
+	fullHex2Bin(Karr[r], K_bin) #K value
+
+	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
+	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
+	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
+	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
+
+#round 4
+for r in range(49,64):
+	arr_F=(ifunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
+	arr_mS=(modSum(A_bin,arr_F))# ffffffff
+	#print("Marr=",Marr[r])
+	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# 54686578  #M value
+	K_bin=[]           
+	fullHex2Bin(Karr[r], K_bin) #K value
+	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
+	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
+	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
+	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
+
+A_bin=(modSum(A_bin,A_bin0))
+B_bin=(modSum(B_bin,B_bin0))
+C_bin=(modSum(C_bin,C_bin0))
+D_bin=(modSum(D_bin,D_bin0))
+
+
 num=[]
 for i in range(32):
     num.append( "{}".format(A_bin[i]))
@@ -205,7 +304,7 @@ num=[]
 for i in range(32):
     num.append( "{}".format(M_arr[1][i]))
 print("Maee=")
-"""
+
 #hexCheck(num)
 
 """
