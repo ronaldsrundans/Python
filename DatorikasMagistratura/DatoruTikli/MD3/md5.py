@@ -40,17 +40,17 @@ def bin2hex(n):
     hex_num = format(num, 'x')
     return(hex_num)
 def ANDfunction(x,y):
-	if(x==y):
+	if(x=='1' and y=='1'):
 		return '1'
 	else:
 		return '0'
 def ORfunction(x,y):
-	if(x!=y):
+	if(x=='1' or y=='1'):
 		return '1'
 	else:
 		return '0'
 def NOTfunction(x):
-	if(x==1):
+	if(x=='1'):
 		return '0'
 	else:
 		return '1'
@@ -84,9 +84,15 @@ def gfunction(B,C,D):
 	for i in range(32):
 		arr2.append(NOTfunction(D[i]))
 	for i in range(32):
-		arr3.append(ANDfunction(arr2[i],C[i]))
+		arr3.append(ANDfunction(C[i],arr2[i]))
+		print("C,not D, AND:",C[i],arr2[i], arr3[i])
+	print("Arr3=")
+	printVector(C)
+	printVector(arr2)
+	printVector(arr3)
 	for i in range(32):
 		arr4.append(ORfunction(arr[i],arr3[i]))
+	printVector(arr4)
 	return arr4
 def hfunction(B,C,D):
 	#(B XOR C XOR D)
@@ -150,8 +156,37 @@ def endShuffle(A,B,C,D,E):
     #C=B
     #D=C
 	#return 0
+def printVectors(A,B,C,D):
+	num=[]
+	for i in range(32):
+		num.append( "{}".format(A[i]))
+	print("A=")
+	hexCheck(num)
+	num=[]
+	for i in range(32):
+			num.append( "{}".format(B[i]))
+	print("B=")
+	hexCheck(num)
+	num=[]
+	for i in range(32):
+		num.append( "{}".format(C_bin[i]))
+	print("C=")
+	hexCheck(num)
+	num=[]
+	for i in range(32):
+		num.append( "{}".format(D_bin[i]))
+	print("D=")
+	hexCheck(num)
+def printVector(A):
+	num=[]
+	for i in range(32):
+		num.append( "{}".format(A[i]))
+	print("Vector=")
+	hexCheck(num)		
 #plain_text="KINO"
+		
 plain_text="They are deterministic"
+#plain_text="javatpoint"
 #print("The message is : " + str(plain_text))
 res=string2bin(plain_text) 
 # printing result 
@@ -216,20 +251,24 @@ fullHex2Bin("76543210", D_bin0)
 
 #round 1
 for r in range(0,16):
-	arr_F=(ffunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
-	arr_mS=(modSum(A_bin,arr_F))# ffffffff
+	arr_F=(ffunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10) F function
+	arr_mS=(modSum(A_bin,arr_F))# ffffffff			#A+F
 	#print("Marr=",Marr[r])
-	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# 54686578  #M value
+	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# 54686578  #M value	A+M
 	K_bin=[]           
 	fullHex2Bin(Karr[r], K_bin) #K value
-
-	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
+	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0	M+K
 	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
-	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
+	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604	A+S
 	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
 
 
 ### end of 1 operation 63 more operations
+A_bin=[]
+B_bin=[]
+C_bin=[]
+D_bin=[]
+#for testing G function
 fullHex2Bin("799d1352", A_bin)
 fullHex2Bin("2c34dfa2", B_bin)
 fullHex2Bin("de1673be", C_bin)
@@ -237,27 +276,33 @@ fullHex2Bin("4b976282", D_bin)
 
 #round 2
 for r in range(16,33):
-	arr_F=(gfunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
-	arr_mS=(modSum(A_bin,arr_F))# ffffffff
+	arr_F=(gfunction(B_bin, C_bin, D_bin))#
+	"""
+	if (r==16):
+		printVectors(A_bin, B_bin, C_bin, D_bin)
+		printVector(arr_F)#check G function result
+	"""
+	arr_mS=(modSum(A_bin,arr_F))# 
 	#print("Marr=",Marr[r])
-	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# 54686578  #M value
+	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# #M value
 	K_bin=[]           
 	fullHex2Bin(Karr[r], K_bin) #K value
-
 	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
 	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
 	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
 	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
+	#if(r==16):
+	#	printVectors(A_bin, B_bin, C_bin, D_bin)
+
 
 #round 3
 for r in range(33,49):
-	arr_F=(hfunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
-	arr_mS=(modSum(A_bin,arr_F))# ffffffff
+	arr_F=(hfunction(B_bin, C_bin, D_bin))#
+	arr_mS=(modSum(A_bin,arr_F))# 
 	#print("Marr=",Marr[r])
 	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# 54686578  #M value
 	K_bin=[]           
 	fullHex2Bin(Karr[r], K_bin) #K value
-
 	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
 	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
 	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
@@ -275,7 +320,9 @@ for r in range(49,64):
 	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
 	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
 	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
+
 #OK
+
 A_bin=[]
 B_bin=[]
 C_bin=[]
@@ -285,34 +332,17 @@ fullHex2Bin("7d502063", B_bin)
 fullHex2Bin("8b3d715d", C_bin)
 fullHex2Bin("1de3a739", D_bin)
 
+# Ok
+
 A_bin=(modSum(A_bin,A_bin0))
 B_bin=(modSum(B_bin,B_bin0))
 C_bin=(modSum(C_bin,C_bin0))
 D_bin=(modSum(D_bin,D_bin0))
-#OK
 
-num=[]
-for i in range(32):
-    num.append( "{}".format(A_bin[i]))
-print("A=")
-hexCheck(num)
-num=[]
-for i in range(32):
-    num.append( "{}".format(B_bin[i]))
-print("B=")
-hexCheck(num)
-num=[]
-for i in range(32):
-    num.append( "{}".format(C_bin[i]))
-print("C=")
-hexCheck(num)
-num=[]
-for i in range(32):
-    num.append( "{}".format(D_bin[i]))
-print("D=")
-hexCheck(num)
+# /OK
+#printVectors(A_bin, B_bin, C_bin, D_bin)
 
-
+"""
 num=[]
 for i in range(32):
     num.append( "{}".format(M_arr[1][i]))
@@ -320,7 +350,7 @@ print("Maee=")
 
 #hexCheck(num)
 
-"""
+
 be = "01234567"
 #"01234567"
 bearr=[]
@@ -328,75 +358,17 @@ fullHex2Bin(be, bearr)
 print("be=", bearr)
 
 """
-
-"""
-
-
-
-
-    M0 – 54686579
-    M1 – 20617265
-    M2 – 20646574
-    M3 – 65726D69
-    M4 – 6E697374
-    M5 – 69638000
-    M6 – 00000000
-    M7 – 00000000
-    M8 – 00000000
-    M9 – 00000000
-    M10 – 00000000
-    M11 – 00000000
-    M12 – 00000000
-    M13 – 00000000
-    M14 – 00000000
-    M15 – 000000B0
-
-m0=[]
-for i in range(32):
-	m0.append(arr[0][i])
-arr_MS=(modSum(arr_mS,m0))
-print(arr_MS)
-
-
-"""
-
-#second : M1, M6, M11, M0, M5, M10, M15, M4, M9, M14, M3, M8, M13, M2, M7, M12
-#third : M5, M8, M11, M14, M1, M4, M7, M10, M13, M0, M3, M6, M9, M12, M15, M2
-#forth : M0, M7, M14, M5, M12, M3, M10, M1, M8, M15, M6, M13, M4, M11, M2, M9
-#for i in range(32):
-#	print(arr[i])
-"""
-
-
-
-    Round one
-        S1, S5, S9, S13 – 7
-        S2, S6, S10, S14 – 12
-        S3, S7, S11, S15 – 17
-        S4, S8, S12, S16, – 22
-Sarr=[7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,4,11,16,13,4,11,16,13,4,11,16,13,4,11,16,13,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21]
-    Round two
-        S17, S21, S25, S29 – 5
-        S18, S22, S26, S30 – 9
-        S19, S23, S27, S31 – 14
-        S20, S24, S28, S32 – 20
-
-    Round three
-        S33, S37, S41, S45 – 4
-        S34, S38, S42, S46 – 11
-        S35, S39, S43, S47 – 16
-        S36, S40, S44, S48 – 13
-
-    Round four
-        S49, S53, S57, S61 – 6
-        S50, S54, S58, S62 – 10
-        S51, S55, S59, S63 – 15
-        S52, S56, S60, S64 – 21
-
-rows, cols = (32, 16)
-# method 2 1st approach
-arr = [[0]*cols]*rows
-for i in range(32):
-	arr[0][i]=1
-	print(i)
-"""
+A_bin=[]
+B_bin=[]
+C_bin=[]
+D_bin=[]
+arr_F=[]
+#for testing G function
+print("Testing G:")
+fullHex2Bin("799d1352", A_bin)
+fullHex2Bin("2c34dfa2", B_bin)
+fullHex2Bin("de1673be", C_bin)
+fullHex2Bin("4b976282", D_bin)
+arr_F=(gfunction(B_bin, C_bin, D_bin))#
+printVectors(A_bin, B_bin, C_bin, D_bin)
+printVector(arr_F)#check G function result (1c1453be)
