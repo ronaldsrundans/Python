@@ -105,13 +105,11 @@ def ifunction(B,C,D):
 	for i in range(32):
 		arr3.append(XORfunction(C[i],arr2[i]))
 	return arr3
-def hexCheck(arr):
-	for i in range(8):
+def hexCheck(arr):#len(arr) must be 32 (bin) => 2hex values 
+	for i in range(8):#4*8=32
 		print(bin2hex((arr[i*4])+(arr[i*4+1])+(arr[i*4+2])+(arr[i*4+3])))
 def modSum(a,b):
 	c=[]
-	#print("modSum a", a)
-	#print("modSum b", b)
 	for i in range(32):
 		c.append('0')
 	for i in range(31,-1,-1):
@@ -121,14 +119,13 @@ def modSum(a,b):
 		    c[i-1]=1
 	return c
 def leftBitShift(arr,n):
-	#print(arr)
 	tmp=[]
 	for i in range(n):
 		tmp.append(arr[i])
 	for i in range(n):
 		arr.pop(0)
 		arr.append(tmp[i])
-def endShuffle(A,B,C,D,E):
+def endShuffle(A,B,C,D,E):#After each round switch values
 	for i in range (32):
 		A[i]=D[i]
 		D[i]=C[i]
@@ -160,14 +157,54 @@ def printVector(A):#print just A in Hex
 	for i in range(32):
 		num.append( "{}".format(A[i]))
 	print("Vector=")
-	hexCheck(num)		
+	hexCheck(num)
+def isItPrime (num):#Is this number a prime number?
+	for i in range(2,num):
+		if (num % i == 0):
+			return False
+	return True
+def gcd(a, h):
+    temp = 0
+    while(1):
+        temp = a % h
+        if (temp == 0):
+            return h
+        a = h
+        h = temp
+p=3#53 #3
+print(isItPrime(53))
+q=7#59 #11 #59
+n=p*q #must be >256
+e=2	# e*d=1(mod z)# 2
+z=(p-1)*(q-1)	#3016
+while (e < z):
+ 
+    # e must be co-prime to phi and
+    # smaller than phi.
+    if(gcd(e, z) == 1):
+        break
+    else:
+        e = e+1
+ 
+# Private key (d stands for decrypt)
+# choosing d such that it satisfies
+# d*e = 1 + k * totient
+ 
+k = 2
+d = (1 + (k*z))/e
+#d=7# (1 + (k*z))/e , k=2 #2011
+
+
+print(p,q,n,z,d,e)	
+#Public key pair (e,n)=(3,20)
+#Private key pair (d,n)=(7,20)
+#Encryption P^e(mod n)
+#Decryption C^d(mod n)
+#c = (msg ^ e) % n
 plain_text="KINO"
-#plain_text="Its a beatuful day to go for a walk outside."
 #plain_text="They are deterministic"
-#plain_text="javatpoint"
 #print("The message is : " + str(plain_text))
 res=string2bin(plain_text) 
-# printing result 
 #print("The string after binary conversion : " + str(res))
 #1. Append Padding Bits:
 l_res=len(res) 
@@ -220,20 +257,6 @@ for r in range(0,16):
 	leftBitShift(arr_mK1,Sarr[r]) #    #S value
 	arr_mSB=(modSum(B_bin,arr_mK1))# 	A+S
 	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
-
-
-### end of 1 operation 63 more operations
-"""
-A_bin=[]
-B_bin=[]
-C_bin=[]
-D_bin=[]
-#for testing G function
-fullHex2Bin("799d1352", A_bin)
-fullHex2Bin("2c34dfa2", B_bin)
-fullHex2Bin("de1673be", C_bin)
-fullHex2Bin("4b976282", D_bin)
-"""
 #round 2
 for r in range(16,33):
 	arr_F=(gfunction(B_bin, C_bin, D_bin))# G function
@@ -241,11 +264,10 @@ for r in range(16,33):
 	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# #M value
 	K_bin=[]           
 	fullHex2Bin(Karr[r], K_bin) #K value
-	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
-	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
-	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
+	arr_mK1=(modSum(K_bin,arr_mS0))# 
+	leftBitShift(arr_mK1,Sarr[r]) #    #S value
+	arr_mSB=(modSum(B_bin,arr_mK1))# 
 	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
-
 #round 3
 for r in range(33,49):
 	arr_F=(hfunction(B_bin, C_bin, D_bin))# H function
@@ -257,24 +279,22 @@ for r in range(33,49):
 	leftBitShift(arr_mK1,Sarr[r])     #S value
 	arr_mSB=(modSum(B_bin,arr_mK1))
 	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
-
 #round 4
 for r in range(49,64):
-	arr_F=(ifunction(B_bin, C_bin, D_bin))#(89abcdef,fe dc ba 98, 76 54 32 10)
-	arr_mS=(modSum(A_bin,arr_F))# ffffffff
-	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))# 54686578  #M value
+	arr_F=(ifunction(B_bin, C_bin, D_bin))# I function
+	arr_mS=(modSum(A_bin,arr_F))# 
+	arr_mS0=(modSum(M_arr[Marr[r]],arr_mS))#  #M value
 	K_bin=[]           
 	fullHex2Bin(Karr[r], K_bin) #K value
-	arr_mK1=(modSum(K_bin,arr_mS0))# 2bd309f0
-	leftBitShift(arr_mK1,Sarr[r]) #e984f815     #S value
-	arr_mSB=(modSum(B_bin,arr_mK1))# 7330C604
+	arr_mK1=(modSum(K_bin,arr_mS0))# 
+	leftBitShift(arr_mK1,Sarr[r]) #    #S value
+	arr_mSB=(modSum(B_bin,arr_mK1))#
 	endShuffle(A_bin,B_bin,C_bin,D_bin,arr_mSB)
-
+#Last bitwise sum
 A_bin=(modSum(A_bin,A_bin0))
 B_bin=(modSum(B_bin,B_bin0))
 C_bin=(modSum(C_bin,C_bin0))
 D_bin=(modSum(D_bin,D_bin0))
-
 
 first_byte=[]
 for i in range(8):
@@ -282,4 +302,26 @@ for i in range(8):
 print(first_byte)
 #print(bin2hex((first_byte[0])+(first_byte[1])+(first_byte[2])+(first_byte[3])))
 #print(bin2hex((first_byte[4])+(first_byte[5])+(first_byte[6])+(first_byte[7])))
+# Message to be encrypted
+msg = 12.0
+ 
+print("Message data = ", msg)
+ 
+# Encryption c = (msg ^ e) % n
+c=pow(msg,e)
+#msg=c%n
+#print(n)
+c=c%n
+#print(c)
+#c = #math.fmod(c, n)
+#print("Encrypted data = ", c)
+ 
+# Decryption m = (c ^ d) % n
+msg=pow(c,d)
+#print(msg)
+msg=msg%n
+print("Message:",msg)
+#m = pow(c, d)
+#m = math.fmod(m, n)
+#print("Original Message Sent = ", m)
 
