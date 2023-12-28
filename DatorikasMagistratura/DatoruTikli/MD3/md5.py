@@ -36,12 +36,14 @@ def bin2hex(n):
     hex_num = format(num, 'x')
     return(hex_num)
 def ANDfunction(x,y):
-	if(x=='1' and y=='1'):
+	#if(x=='1' and y=='1'):
+	if(int(x)&int(y)):
 		return '1'
 	else:
 		return '0'
 def ORfunction(x,y):
-	if(x=='1' or y=='1'):
+	#if(x=='1' or y=='1'):
+	if(int(x)|int(y)):
 		return '1'
 	else:
 		return '0'
@@ -51,10 +53,10 @@ def NOTfunction(x):
 	else:
 		return '1'
 def XORfunction(x,y):
-	if(x==y):
-		return '0'
-	else:
+	if(int('0')^int('0')):
 		return '1'
+	else:
+		return '0'
 def ffunction(B,C,D):
 	arr=[]
 	arr2=[]
@@ -332,14 +334,14 @@ D_bin=(modSum(D_bin,D_bin0))
 first_byte=[]
 for i in range(8):
 	first_byte.append(A_bin[i])
-print(first_byte)
+print("First byte=",first_byte)
 
 #print(bin2hex((first_byte[0])+(first_byte[1])+(first_byte[2])+(first_byte[3])))
 #print(bin2hex((first_byte[4])+(first_byte[5])+(first_byte[6])+(first_byte[7])))
 # Message to be encrypted
 #msg = 170.0
 msg=int(first_byte[7])+2*int(first_byte[6])+4*int(first_byte[5])+8*int(first_byte[4])+16*int(first_byte[3])+32*int(first_byte[2])+64*int(first_byte[1])+128*int(first_byte[0])
-print("Message data = ", msg)
+print("Message data(dec) = ", msg)
 c=encrypt(msg, e,n)
 print(c)
 msg=decrypt(c, d,n)
@@ -366,3 +368,4 @@ print("Message:",msg)
 #print(encrypt(msg, e,n))#28858
 #print(decrypt(28858.0, d,n))
 #decrypt(c,d,n):
+#print(~1)
