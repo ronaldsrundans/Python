@@ -1,6 +1,7 @@
 
 #https://www.comparitech.com/blog/information-security/md5-algorithm-with-examples/
 # “They are deterministic”  hash of 23db6982caef9e9152f1a5b2589e6ca3 every single time.
+import math
 def string2bin(plaintext):
 	#print()
 	res = ''.join(format(ord(i), '08b') for i in plain_text)
@@ -171,31 +172,41 @@ def gcd(a, h):
             return h
         a = h
         h = temp
-p=3#53 #3
+p=53#53 #3
 print(isItPrime(53))
-q=7#59 #11 #59
+q=13#59 #11 #59
 n=p*q #must be >256
-e=2	# e*d=1(mod z)# 2
+e=2	# e*d=1(mod z)# 2 # >1 and not a factor of z
 z=(p-1)*(q-1)	#3016
+k = 1 #konstante pie d aprēķina
+d=0
 while (e < z):
- 
-    # e must be co-prime to phi and
-    # smaller than phi.
-    if(gcd(e, z) == 1):
-        break
-    else:
-        e = e+1
- 
+	if(gcd(e, z) == 1):
+		print(e)
+		for k in range(2,n):
+			d = (1 + (k*z))/e #d ir vesels skaitlis
+			if(d%1==0):
+				print("k=", k)
+				break
+		if(d%1==0):
+			break
+		e = e+1
+	else:
+		e = e+1
+print("p=",p)	
+print("q=",q)	
+print("n=",n)
+print("e=",e)
 # Private key (d stands for decrypt)
 # choosing d such that it satisfies
 # d*e = 1 + k * totient
  
-k = 2
-d = (1 + (k*z))/e
+
+#d = (1 + (k*z))/e
 #d=7# (1 + (k*z))/e , k=2 #2011
+print("d=",d)
 
-
-print(p,q,n,z,d,e)	
+#print(p,q,n,z,d,e)	
 #Public key pair (e,n)=(3,20)
 #Private key pair (d,n)=(7,20)
 #Encryption P^e(mod n)
@@ -308,20 +319,21 @@ msg = 12.0
 print("Message data = ", msg)
  
 # Encryption c = (msg ^ e) % n
-c=pow(msg,e)
+#c=pow(msg,e)#
+c = math.fmod(pow(msg,e), n)
+#print(type(c))
 #msg=c%n
 #print(n)
-c=c%n
+#c=c%n
 #print(c)
 #c = #math.fmod(c, n)
 #print("Encrypted data = ", c)
  
 # Decryption m = (c ^ d) % n
-msg=pow(c,d)
+msg=math.fmod(pow(c,d),n)
 #print(msg)
-msg=msg%n
+#msg=msg%n
 print("Message:",msg)
 #m = pow(c, d)
 #m = math.fmod(m, n)
 #print("Original Message Sent = ", m)
-
