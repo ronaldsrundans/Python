@@ -172,9 +172,31 @@ def gcd(a, h):
             return h
         a = h
         h = temp
-p=53#53 #3
+		# To encrypt the given number
+def encrypt(message, e,n):
+    #global public_key, n
+    #e = public_key
+    encrypted_text = 1
+    while e > 0:
+        encrypted_text *= message
+        encrypted_text %= n
+        e -= 1
+    return encrypted_text
+ 
+ 
+# To decrypt the given number
+def decrypt(c,d,n):
+    #global private_key, n
+    #d = private_key
+    decrypted = 1
+    while d > 0:
+        decrypted *= c
+        decrypted %= n
+        d -= 1
+    return decrypted
+p=191#53 #3
 print(isItPrime(53))
-q=13#59 #11 #59
+q=163#59 #11 #59
 n=p*q #must be >256
 e=2	# e*d=1(mod z)# 2 # >1 and not a factor of z
 z=(p-1)*(q-1)	#3016
@@ -183,7 +205,7 @@ d=0
 while (e < z):
 	if(gcd(e, z) == 1):
 		print(e)
-		for k in range(2,n):
+		for k in range(1,n):
 			d = (1 + (k*z))/e #d ir vesels skaitlis
 			if(d%1==0):
 				print("k=", k)
@@ -311,16 +333,20 @@ first_byte=[]
 for i in range(8):
 	first_byte.append(A_bin[i])
 print(first_byte)
+
 #print(bin2hex((first_byte[0])+(first_byte[1])+(first_byte[2])+(first_byte[3])))
 #print(bin2hex((first_byte[4])+(first_byte[5])+(first_byte[6])+(first_byte[7])))
 # Message to be encrypted
-msg = 12.0
- 
+#msg = 170.0
+msg=int(first_byte[7])+2*int(first_byte[6])+4*int(first_byte[5])+8*int(first_byte[4])+16*int(first_byte[3])+32*int(first_byte[2])+64*int(first_byte[1])+128*int(first_byte[0])
 print("Message data = ", msg)
- 
+c=encrypt(msg, e,n)
+print(c)
+msg=decrypt(c, d,n)
+
 # Encryption c = (msg ^ e) % n
 #c=pow(msg,e)#
-c = math.fmod(pow(msg,e), n)
+#c = math.fmod(pow(msg,e), n)
 #print(type(c))
 #msg=c%n
 #print(n)
@@ -330,10 +356,13 @@ c = math.fmod(pow(msg,e), n)
 #print("Encrypted data = ", c)
  
 # Decryption m = (c ^ d) % n
-msg=math.fmod(pow(c,d),n)
+#msg=math.fmod(pow(c,d),n)
 #print(msg)
 #msg=msg%n
 print("Message:",msg)
 #m = pow(c, d)
 #m = math.fmod(m, n)
 #print("Original Message Sent = ", m)
+#print(encrypt(msg, e,n))#28858
+#print(decrypt(28858.0, d,n))
+#decrypt(c,d,n):
