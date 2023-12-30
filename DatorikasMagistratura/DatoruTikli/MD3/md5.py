@@ -189,7 +189,7 @@ e=2	# e*d=1(mod z)# 2 # >1 and not a factor of z
 z=(p-1)*(q-1)	
 k = 1 #konstante pie d aprēķina
 d=0
-while (e < z):
+while (e < z):#meklē atbilstošass e un d
 	if(gcd(e, z) == 1):
 		for k in range(1,n):
 			d = (1 + (k*z))/e 
@@ -200,8 +200,11 @@ while (e < z):
 		e = e+1#citādi bezgalīgs cikls
 	else:
 		e = e+1
-#Public key pair (e,n)
-#Private key pair (d,n)
+print("Public key pair (e,n):") 
+print(e,n)
+print("Private key pair (d,n):") 
+print(d,n)
+
 		
 #/RSA algoritms
 #MD5 algoritms
@@ -302,6 +305,7 @@ print("First byte=",first_byte)
 msg=int(first_byte[7])+2*int(first_byte[6])+4*int(first_byte[5])+8*int(first_byte[4])+16*int(first_byte[3])+32*int(first_byte[2])+64*int(first_byte[1])+128*int(first_byte[0])
 print("Message Hash value (dec) = ", msg)
 c=encrypt(msg, e,n)
+print("Crypted Hash value (dec) = ", c)
 print("Signed message = ", plain_text,c)
 #print(c)
 msg=decrypt(c, d,n)
