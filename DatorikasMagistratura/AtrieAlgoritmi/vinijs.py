@@ -1,3 +1,5 @@
+#https://www.lavivienpost.net/weighted-graph-as-adjacency-list/
+#https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
 class Edge : 
 	#Constructor, Time O(1) Space O(1)
 	def __init__(self, v, w) :
@@ -144,13 +146,55 @@ class GraphWeighted :
                     q.append(u); 
                     visited[u] = True
         print()
+    """
+    def isCyclicUtil(self, v, visited, recStack):
+ 
+        # Mark current node as visited and
+        # adds to recursion stack
+        visited[v] = True
+        recStack[v] = True
+ 
+        # Recur for all neighbours
+        # if any neighbour is visited and in
+        # recStack then graph is cyclic
+        for neighbour in self.graph[v]:
+            if visited[neighbour] == False:
+                if self.isCyclicUtil(neighbour, visited, recStack) == True:
+                    return True
+            elif recStack[neighbour] == True:
+                return True
+ 
+        # The node needs to be popped from
+        # recursion stack before function ends
+        recStack[v] = False
+        return False
+ 
+    # Returns true if graph is cyclic else false
+    def isCyclic(self):
+        #self.connectedVetex = v
+        visited = [False] * (self.adj + 1)
+        recStack = [False] * (self.adj + 1)
+        for node in range(self.adj):
+            if visited[node] == False:
+                if self.isCyclicUtil(node, visited, recStack) == True:
+                    return True
+        return False
+    """
 # Driver's code
 if __name__ == "__main__":
     #e = Edge()
-    g = GraphWeighted(True)#.directed == True
+    g = GraphWeighted(True)#directed == True
     #g.directed == True
     g.addEdge(1, 2, 5)
     g.addEdge(1, 3, 6)
     g.addEdge(2, 3, 3)
     g.addEdge(3, 4, 2)
     g.printGraph() 
+    print(g.bfsTraversal(1))
+    g.bfsTraversal(1)
+    """
+    if g.isCyclic() == 1:
+        print("Graph contains cycle")
+    else:
+        print("Graph doesn't contain cycle")
+    """    
