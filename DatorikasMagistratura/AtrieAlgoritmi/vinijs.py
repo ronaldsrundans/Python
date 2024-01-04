@@ -1,5 +1,4 @@
 #https://www.lavivienpost.net/weighted-graph-as-adjacency-list/
-#https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
 class Edge : 
 	#Constructor, Time O(1) Space O(1)
 	def __init__(self, v, w) :
@@ -97,21 +96,35 @@ class GraphWeighted :
         q = [] 
         visited[src] = True
         q.append(src) 
-        while q : 
+        print("q=",q)
+        while q :
+            print("q=",q) 
             v = q.pop(0); 
-            if v == dest: 
+            print("v=",v)
+            if v == dest:
+                print("True=", v) 
                 return True 
             for edge in self.adj[v] :  
-                u = edge.connectedVetex              
+                u = edge.connectedVetex  
+                print("u=",u)            
                 if u not in visited:  
                     q.append(u)
                     visited[u] = True	    	        
         return False 
 	# Print graph as hashmap, Time O(V+E), Space O(1)
     def printGraph(self) :
+        for k, v in self.adj.items():# k=virsotne
+            print(str(k) + "-", end ="")
+            for edge in v:# v=edge objects (savienotas virsotnes un svari)
+                print(edge, end="")
+            print()
+    def printGraph2(self) :
         for k, v in self.adj.items():
+            #print("k=",k)
+            #print("v=",v)
             print(str(k) + "-", end ="")
             for edge in v:
+                #print("EDGE=",edge)
                 print(edge, end="")
             print()
 
@@ -120,16 +133,52 @@ class GraphWeighted :
         visited = {}
         self.helper(src, visited)
         print()
+    def dfsTraversal2(self, src) : 
+        visited = {}#kopa ar apmekletajam virsotnem
+        recStack = {}#kopa ar apmekletajam virsotnem
+        self.helper2(src, visited,recStack)
+        print()
 	
 	#DFS helper, Time O(V+E), Space O(V) 
     def helper(self, v, visited) :
         visited[v] = True
         print(str(v) +" ",end="")
         for edge in self.adj[v] :
-            u = edge.connectedVetex
+            u = edge.connectedVetex# u=savienota virsotne
             if u not in visited:               
                 self.helper(u, visited)
+	
+	#DFS helper, Time O(V+E), Space O(V) 
+    def helper2(self, v, visited,recStack) :
+        #if v in visited:
+        #    print("Visited!")
+        recStack[v] = True
+        #print("Visited:")
+        #print(visited)
+        #print("Stack")
+        #print(recStack)
+        visited[v] = True
+        for edge in self.adj[v] :
+            u = edge.connectedVetex
+            if u in visited:
+                print("\n")
+                print("Found cycle to:",u)    
+                print("From node:", v)
+                #print(":",recStack)
+                print("Path:",visited)
+                #for i in visited:
+                #    print(i)
+                print("\n")
 
+
+        #print("v=", str(v))
+        #v=current vertex, visited= array, and recursion stack.
+        #pievieno check for vai kaimiņu virsotnes ir jau visited masīvā
+        print(str(v) +" ",end="")
+        for edge in self.adj[v] :
+            u = edge.connectedVetex# u=savienota virsotne
+            if u not in visited:               
+                self.helper2(u, visited,recStack)
 	
     # Traversal starting from src, BFS, Time O(V+E), Space O(V)
     def bfsTraversal(self, src) : 
@@ -146,55 +195,37 @@ class GraphWeighted :
                     q.append(u); 
                     visited[u] = True
         print()
-    """
-    def isCyclicUtil(self, v, visited, recStack):
- 
-        # Mark current node as visited and
-        # adds to recursion stack
-        visited[v] = True
-        recStack[v] = True
- 
-        # Recur for all neighbours
-        # if any neighbour is visited and in
-        # recStack then graph is cyclic
-        for neighbour in self.graph[v]:
-            if visited[neighbour] == False:
-                if self.isCyclicUtil(neighbour, visited, recStack) == True:
-                    return True
-            elif recStack[neighbour] == True:
-                return True
- 
-        # The node needs to be popped from
-        # recursion stack before function ends
-        recStack[v] = False
-        return False
- 
-    # Returns true if graph is cyclic else false
-    def isCyclic(self):
-        #self.connectedVetex = v
-        visited = [False] * (self.adj + 1)
-        recStack = [False] * (self.adj + 1)
-        for node in range(self.adj):
-            if visited[node] == False:
-                if self.isCyclicUtil(node, visited, recStack) == True:
-                    return True
-        return False
-    """
+
 # Driver's code
 if __name__ == "__main__":
     #e = Edge()
     g = GraphWeighted(True)#directed == True
     #g.directed == True
+
+    g.addEdge(0, 1, 5)
+    g.addEdge(0, 2, 5)
     g.addEdge(1, 2, 5)
     g.addEdge(1, 3, 6)
     g.addEdge(2, 3, 3)
+    g.addEdge(2, 0, 3)
     g.addEdge(3, 4, 2)
-    g.printGraph() 
-    print(g.bfsTraversal(1))
-    g.bfsTraversal(1)
+
+    #g.printGraph2() 
+
+    #print(g.bfsTraversal(1))
+    #g.bfsTraversal(0)
+    g.dfsTraversal2(0)
+    #g.dfsTraversal2(1)
+    #g.dfsTraversal2(2)
+    #g.dfsTraversal2(3)
+    #g.dfsTraversal2(4)
+
+    #print(g.hasPathBfs(1,0))#True
+    #print(g.hasPathBfs(3,0))#True
+
     """
     if g.isCyclic() == 1:
         print("Graph contains cycle")
     else:
         print("Graph doesn't contain cycle")
-    """    
+    """   
