@@ -64,10 +64,16 @@ def printCycles():
             print(x, end = " ")
         print()
 def printCycles2():
- 
+    global k
+    k=0
+    global W
+    W=0 
+    #global k=
     # print all the vertex with same cycle
     for i in range(0, cyclenumber):
-        m=101 
+        m=101
+        a=0
+        b=0
         # Print the i-th cycle
         #print("Cycle Number %d:" % (i+1), end = " ")
         for x in range(len(cycles[i])-1):
@@ -77,7 +83,7 @@ def printCycles2():
 
             num1=cycles[i][x]
             num2=cycles[i][x+1]
-            #print("Weights for", weights[num1])
+            print("Weights for",num1, weights[num1])
             #print("Weights for", weights[num2])
             for j in weights[num1]:
                 #print(j[0])
@@ -87,12 +93,15 @@ def printCycles2():
                     if(j[1]<m):
                         print("Weight is", j[1])
                         m=j[1]
-                        print("a1",num1)
-                        print("a2",num2)
+                        a=num1
+                        b=num2
+                        #print("a1",num1)
+                        #print("a2",num2)
                     break
-
-            print()
-
+        print("a1,b1,w1=",a, b, m)
+        k=k+1
+        W=W+m
+        print("k,W:",k,W)
         print()
 
 # Python3 program to print all the cycles
@@ -105,15 +114,7 @@ graph = [[] for i in range(N)]
 cycles = [[] for i in range(N)]
 weights = [[] for i in range(N)]
 #print(weights)
-"""
-for i in range (N-1):
-    addEdge(i,i+1,100)
 
-    # add edges
-print("weights")
-print(weights[0])
-print(weights[N-1])
-"""
 addEdge(1, 2,-1)
 addEdge(2, 3,2)
 addEdge(3, 4,2)
@@ -125,14 +126,14 @@ addEdge(7, 8,7)
 addEdge(6, 10,1)
 addEdge(5, 9,2)
 addEdge(10, 9,3)
-
+addEdge(10, 11,7)
+addEdge(11, 12,8)
+addEdge(11, 13,9)
+addEdge(12, 13,10)
 #print("weights")
 #print(weights[2])
 
-    #addEdge(10, 11)
-    #addEdge(11, 12)
-    #addEdge(11, 13)
-    #addEdge(12, 13)
+
  
     # arrays required to color the
     # graph, store the parent of node
@@ -147,40 +148,6 @@ dfs_cycle(1, 0, color, par)
  
     # function to print the cycles
 printCycles2()
-
-print(cycles)
-"""
-# Driver Code
-if __name__ == "__main__":
- 
-    # add edges
-    addEdge(1, 2,1)
-    addEdge(2, 3,2)
-    addEdge(3, 4,2)
-    addEdge(4, 6,3)
-    addEdge(4, 7,4)
-    addEdge(5, 6,5)
-    addEdge(3, 5,6)
-    addEdge(7, 8,7)
-    addEdge(6, 10,1)
-    addEdge(5, 9,2)
-    addEdge(10, 9,3)
-    #addEdge(10, 11)
-    #addEdge(11, 12)
-    #addEdge(11, 13)
-    #addEdge(12, 13)
- 
-    # arrays required to color the
-    # graph, store the parent of node
-    color = [0] * N
-    par = [0] * N
- 
-    # store the numbers of cycle
-    cyclenumber = 0
- 
-    # call DFS to mark the cycles
-    dfs_cycle(1, 0, color, par)
- 
-    # function to print the cycles
-    printCycles()
-"""
+print("k=",k)
+print("W=",W)
+#print(cycles)
