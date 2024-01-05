@@ -54,16 +54,16 @@ def printCycles2():
     global W
     W=0 
     for i in range(0, cyclenumber):
-        m=101
+        m=101# range(-100, +100) meklē min vertibu
         a=0
         b=0
         for x in range(len(cycles[i])-1):
             num1=cycles[i][x]
             num2=cycles[i][x+1]
-            for j in weights[num1]:
-                if(j[0]==num2):
-                    if(j[1]<m):
-                        m=j[1]
+            for j in weights[num1]:#meklē svarus starp virsotnēm
+                if(j[0]==num2):#atrada otro virsotni 
+                    if(j[1]<m):#pārbauda edge svarus
+                        m=j[1]#Saglaba min vertibas info
                         a=num1
                         b=num2
                     break
@@ -82,31 +82,13 @@ result.append(0)
 graph = [[] for i in range(N)]
 cycles = [[] for i in range(N)]
 weights = [[] for i in range(N)]
-f = open("input2.txt", "r")
+f = open("input4.txt", "r")
 inputdata=(f.read()) 
 f.close()
 myList = inputdata.split()
 myList.pop(0)#Dont care about n
-print((len(myList))/3)
-print("myList:",myList)
-"""
-addEdge(1, 2,-1)
-addEdge(2, 3,2)
-addEdge(3, 4,2)
-addEdge(4, 6,3)
-addEdge(4, 7,4)
-addEdge(5, 6,-5)
-addEdge(3, 5,6)
-addEdge(7, 8,7)
-addEdge(6, 10,1)
-addEdge(5, 9,2)
-addEdge(10, 9,3)
-addEdge(10, 11,7)
-addEdge(11, 12,8)
-addEdge(11, 13,9)
-addEdge(12, 13,10)
-addEdge(12, 1,14)
-"""
+for i in range(0,len(myList),3):
+    addEdge(int(myList[i]),int(myList[i+1]),int(myList[i+2]))
     # arrays required to color the
     # graph, store the parent of node
 color = [0] * N
@@ -117,9 +99,12 @@ cyclenumber = 0
 dfs_cycle(1, 0, color, par) 
     # function to print the cycles
 printCycles2()
-#print("k=",k)
-#print("W=",W)
 result[0]=k
 result[1]=W
 print(result)
-#print(cycles)
+f = open("output.txt", "w")
+for i in result:
+    f.write(str(i))
+    f.write(" ")
+f.close()
+
