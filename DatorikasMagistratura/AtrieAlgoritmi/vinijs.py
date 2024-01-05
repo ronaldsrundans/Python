@@ -99,6 +99,8 @@ def printCycles2():
                         #print("a2",num2)
                     break
         print("a1,b1,w1=",a, b, m)
+        result.append(a)
+        result.append(b)
         k=k+1
         W=W+m
         print("k,W:",k,W)
@@ -107,7 +109,9 @@ def printCycles2():
 # Python3 program to print all the cycles
 # in an undirected graph
 N = 500
- 
+result=[]
+result.append(0) 
+result.append(0) 
 # variables to be used
 # in both functions
 graph = [[] for i in range(N)]
@@ -150,4 +154,7 @@ dfs_cycle(1, 0, color, par)
 printCycles2()
 print("k=",k)
 print("W=",W)
+result[0]=k
+result[1]=W
+print(result)
 #print(cycles)
