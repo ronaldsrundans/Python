@@ -2,6 +2,7 @@
 # different colors for different cycles
 def dfs_cycle(u, p, color, par):
     global cyclenumber 
+    #print("u,p",u,p)
     # already (completely) visited vertex.
     if color[u] == 2:
         return 
@@ -10,6 +11,7 @@ def dfs_cycle(u, p, color, par):
     # backtrack based on parents to
     # find the complete cycle.
     if color[u] == 1:
+        #print("u,p",u,p)
         v = []
         cur = p
         v.append(cur) 
@@ -77,20 +79,19 @@ result.append(0)# W value
 graph = [[] for i in range(N)] # Adjacency list - stores connected vertices
 cycles = [[] for i in range(N)] #Found cycles
 weights = [[] for i in range(N)]#[[0]-connected vertice [1]-weight],...
-f = open("input5.txt", "r")
+f = open("input.txt", "r")
 inputdata=(f.read()) 
 f.close()
 myList = inputdata.split()
 myList.pop(0)#Dont care about n value
 for i in range(0,len(myList),3):
     addEdge(int(myList[i]),int(myList[i+1]),int(myList[i+2])) 
-#print(weights)
 color = [0] * N #array to color the graph 
 par = [0] * N #store the parent of node
 cyclenumber = 0 # store the numbers of cycle
-dfs_cycle(1,0, color, par) #finds all cycles
+dfs_cycle(int(myList[0]),0, color, par) #finds all cycles 
+#1-vertice names start with 1 < 500
 printCycles2()# fills result array
-#print(cycles)
 result[0]=k
 result[1]=W
 print(result)
