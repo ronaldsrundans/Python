@@ -1,7 +1,6 @@
 # Function to mark the vertex with
 # different colors for different cycles
-def dfs_cycle(u, p, color: list,
-              par: list):
+def dfs_cycle(u, p, color, par):
     global cyclenumber 
     # already (completely) visited vertex.
     if color[u] == 2:
@@ -14,26 +13,21 @@ def dfs_cycle(u, p, color: list,
         v = []
         cur = p
         v.append(cur) 
-        # backtrack the vertex which are
-        # in the current cycle thats found
+        # backtrack the vertex which are in the current cycle thats found
         while cur != u:
             cur = par[cur]
             v.append(cur)
         cycles[cyclenumber] = v
         cyclenumber += 1 
         return 
-    par[u] = p 
-    # partially visited.
-    color[u] = 1 
-    # simple dfs on graph
-    for v in graph[u]: 
-        # if it has not been visited previously
-        if v == par[u]:
+    par[u] = p     # partially visited.
+    color[u] = 1     # simple dfs on graph
+    for v in graph[u]:         
+        if v == par[u]:# if it has not been visited previously
             continue
-        dfs_cycle(v, u, color, par) 
-    # completely visited.
-    color[u] = 2 
-# add the edges to the graph
+        dfs_cycle(v, u, color, par)     
+    color[u] = 2 # completely visited.
+#Add the edges to the graph
 def addEdge(u, v, w): 
     graph[u].append(v)
     graph[v].append(u)
@@ -48,57 +42,55 @@ def printCycles():
         for x in cycles[i]:
             print(x, end = " ")
         print()
+# Function to find weights in cycles      
 def printCycles2():
     global k
     k=0
     global W
     W=0 
     for i in range(0, cyclenumber):
-        m=101# range(-100, +100) meklē min vertibu
-        a=0
-        b=0
-        for x in range(len(cycles[i])-1):
+        m=101# range(-100, +100), find min weight in each cycle
+        a=0 #vertice a for results
+        b=0 #vertice b for rersults
+        for x in range(len(cycles[i])):
             num1=cycles[i][x]
-            num2=cycles[i][x+1]
-            for j in weights[num1]:#meklē svarus starp virsotnēm
-                if(j[0]==num2):#atrada otro virsotni 
-                    if(j[1]<m):#pārbauda edge svarus
-                        m=j[1]#Saglaba min vertibas info
+            if (x<(len(cycles[i]))-1):#if a is not last node
+                num2=cycles[i][x+1]
+            else:#a is last node, check with first node
+                num2=cycles[i][0]
+            for j in weights[num1]:#weight on edge a - b
+                if(j[0]==num2):#found b vertice
+                    if(j[1]<m):#check weight
+                        m=j[1]#Store min, a, b
                         a=num1
                         b=num2
+                        #print("m,a,b:",m,a,b,j[1])
                     break
-        result.append(a)
+        result.append(a)#Write a, b
         result.append(b)
-        k=k+1
-        W=W+m
-# Python3 program to print all the cycles
-# in an undirected graph
-N = 500
+        k=k+1 #store k for results array
+        W=W+m #store total weight for results array
+N = 500 #Max number of vertices
 result=[]
-result.append(0) 
-result.append(0) 
-# variables to be used
-# in both functions
-graph = [[] for i in range(N)]
-cycles = [[] for i in range(N)]
-weights = [[] for i in range(N)]
-f = open("input4.txt", "r")
+result.append(0)# k value
+result.append(0)# W value
+graph = [[] for i in range(N)] # Adjacency list - stores connected vertices
+cycles = [[] for i in range(N)] #Found cycles
+weights = [[] for i in range(N)]#[[0]-connected vertice [1]-weight],...
+f = open("input5.txt", "r")
 inputdata=(f.read()) 
 f.close()
 myList = inputdata.split()
-myList.pop(0)#Dont care about n
+myList.pop(0)#Dont care about n value
 for i in range(0,len(myList),3):
-    addEdge(int(myList[i]),int(myList[i+1]),int(myList[i+2]))
-    # arrays required to color the
-    # graph, store the parent of node
-color = [0] * N
-par = [0] * N 
-    # store the numbers of cycle
-cyclenumber = 0 
-    # call DFS to mark the cycles
-dfs_cycle(1, 0, color, par) 
-    # function to print the cycles
-printCycles2()
+    addEdge(int(myList[i]),int(myList[i+1]),int(myList[i+2])) 
+#print(weights)
+color = [0] * N #array to color the graph 
+par = [0] * N #store the parent of node
+cyclenumber = 0 # store the numbers of cycle
+dfs_cycle(1,0, color, par) #finds all cycles
+printCycles2()# fills result array
+#print(cycles)
 result[0]=k
 result[1]=W
 print(result)
