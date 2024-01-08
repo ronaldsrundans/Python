@@ -1,5 +1,8 @@
 # Function to mark the vertex with
 # different colors for different cycles
+#Time Complexity: O(N + M), where N is 
+#the number of vertexes and M is the number of edges. 
+#Space: O(N + M)
 def dfs_cycle(u, p, color, par):
     global cyclenumber 
     #print("u,p",u,p)
@@ -11,7 +14,6 @@ def dfs_cycle(u, p, color, par):
     # backtrack based on parents to
     # find the complete cycle.
     if color[u] == 1:
-        #print("u,p",u,p)
         v = []
         cur = p
         v.append(cur) 
@@ -90,7 +92,6 @@ color = [0] * N #array to color the graph
 par = [0] * N #store the parent of node
 cyclenumber = 0 # store the numbers of cycle
 dfs_cycle(int(myList[0]),0, color, par) #finds all cycles 
-#1-vertice names start with 1 < 500
 printCycles2()# fills result array
 result[0]=k
 result[1]=W
