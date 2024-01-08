@@ -1,0 +1,35 @@
+Programma ir ap 100 rindām un ir rakstīta Python valodā.
+Tajā ir definētas tikai 3 funkcijas un netiek lietotas klases.
+Tajā ir masīvi:graph, cycles, weights,myList,color,par,result.
+Tajā ir globālie mainīgie k,W,cyclenumber
+Algoritms ir DFS, kas iekrāso virsotnes(masīvā):
+2-Virsotne ir pilnībā apmeklēta
+1-Virsotne ir daļēji apmeklēta
+Funkcijai "dfs_cycle()" padod pirmo virsotnes nosaukumu, 
+virsotnes vecāka virsotni("0"-norāda beigas grafam), krāsu masīvu "color" un vecāku masīvu "par".
+Tā rekursīvi iziet cauri visām grafa virsotnēm.
+Globālais mainīgais "cyclenumber" skaita ciklus grafā.
+Ja sanāk atkārtoti trāpīt uz daļēji apmeklētas virsotnes, tad ir atraksts cikls.
+Visas daļēji apmeklētās virsotnes pieder ciklam un tās saglabā masīvā "cycle" un paliena mainīgo "cyclenumber".
+Funkcija "printCycles()" tikai terminālī izdrukā atrastos ciklus.
+Funkcija "printCycles2()" atrastajos ciklos pārbauda svarus starp virsotnēm.
+Katra cikla minimālās svaru vērtības virsones tiek ierakstītas masīvā "results"
+Glabālais W summē atrasto svaru vērtības un k skaita ciklus.
+Sarežģītība ir aptuveni N+M, kur N ir virsotņu skaits un M ir šķautņu skaits,jo
+laikietilpīgākā darbība ir DFS, kas atrod visus ciklus grafā. 
+Svaru meklēšanai, jāpārbauda visi virsotnes kaimiņi, kas nav konstantā laikā, 
+bet nav tik laikietilpīgi, jo jāpārbauda visas grafa virsotnes.
+Datus ievada fails "input.txt".
+Datus izvada fails "output.txt".
+Maksimālais virsotņu skaits ir < 500.
+No ievades faila n vērtība tiek ignorēta.
+Funkcija "addEdge()" pievieno grafa šķautnes un to svarus.
+Masīvs "graphs" glabā savienotās virsotnes.
+Masīvs "weights" glabā svarus starp virtsotnēm.
+Gan "graph", "weights" ir Adjacency List.
+Atdalītājsimbolus no ievades faila izmet iebūvētā Python funkcija "split()".   
+Rezultātus glabā masīvā "results", kur 0 pozīcijā ir k vērtība (ciklus skaits),
+1 pozīcijā ir W vērtība (svarus summa), kam seko k skaits virsotņu pāri a un b. 
+
+
+
