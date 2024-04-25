@@ -1,4 +1,4 @@
-#CBC mode
+
 import json
 
 from base64 import b64encode
@@ -13,9 +13,38 @@ from Crypto.Random import get_random_bytes
 
 from Crypto.Util.Padding import unpad
 
-print('Enter your plaintext:')
-message = input()
-#print('Hello, ' + x) 
+
+def CBCe():
+ print("CBCe")
+def CBCd():
+ print("CBCe")
+def CFBe():
+ print("CFBe")
+def CFBd():
+ print("CFBe")
+#my_function()
+
+#print('Enter your plaintext:')
+#message = input()
+#print('Hello, ' + x)
+f = open("plain.txt", "r")
+message=(f.read())
+print("Plain text is: ",message) 
+f.close() 
+x='10'
+y='01'
+while(x!='0' or y!='0'):
+ print("Enter the mode number:") 
+ print("1=CBC or 2=CFB  or 0=Exit")
+ x=input()
+ print("Enter number to encrypt or decypt:") 
+ print("3=encrypt or 4=decrypt or 0=Exit")
+ y=input()
+#while(x!='0'):
+# x = input()
+ 
+#message="secret"
+
 data = message.encode('ASCII')
 print("The message is: ",data)
 key = get_random_bytes(16)
@@ -97,7 +126,8 @@ from cryptography.hazmat.primitives.ciphers import algorithms
 
 c = cmac.CMAC(algorithms.AES(key))
 
-c.update(b"message to authenticate")
+#c.update(b"message to authenticate")
+c.update(data)
 
 c.finalize()
 
@@ -105,9 +135,10 @@ c.finalize()
 #validate
 c = cmac.CMAC(algorithms.AES(key))
 
-c.update(b"message to authenticate")
+#c.update(b"message to authenticate")
+c.update(data)
 
-#c.verify(b'CT\x1d\xc8\x0e\x15\xbe4e\xdb\xb6\x84\xca\xd9Xk')
+#c.verify(data)
 
 #c.verify(b"an incorrect signature")
 #c.verify(b"message to authenticate")
