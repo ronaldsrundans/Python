@@ -1,28 +1,62 @@
 
 import json
-
 from base64 import b64encode
-
 from base64 import b64decode
-
 from Crypto.Cipher import AES
-
 from Crypto.Util.Padding import pad
-
 from Crypto.Random import get_random_bytes
-
 from Crypto.Util.Padding import unpad
 
+def CBCe(data, key):
+ print("CBCe")
+ cipher = AES.new(key, AES.MODE_CBC)
+ ct_bytes = cipher.encrypt(pad(data, AES.block_size))
+ iv = b64encode(cipher.iv).decode('utf-8')
+ ct = b64encode(ct_bytes).decode('utf-8')
+ result = json.dumps({'iv':iv, 'ciphertext':ct})
+ print(result)
 
-def CBCe():
+def CBCd(data, key):
  print("CBCe")
-def CBCd():
- print("CBCe")
-def CFBe():
+ #Decryption
+ # We assume that the key was securely shared beforehand
+ try:
+  b64 = json.loads(result)
+  iv = b64decode(b64['iv'])
+  ct = b64decode(b64['ciphertext'])
+  cipher = AES.new(key, AES.MODE_CBC, iv)
+  pt = unpad(cipher.decrypt(ct), AES.block_size)
+  print("The message was: ", pt)
+ except (ValueError, KeyError):
+  print("Incorrect decryption")
+ 
+def CFBe(data, key):
  print("CFBe")
-def CFBd():
- print("CFBe")
+ cipher = AES.new(key, AES.MODE_CFB)
+ ct_bytes = cipher.encrypt(data)
+ iv = b64encode(cipher.iv).decode('utf-8')
+ ct = b64encode(ct_bytes).decode('utf-8')
+ result = json.dumps({'iv':iv, 'ciphertext':ct})
+ print(result)
+
+def CFBd(data, key):
+ print("CFBd")
+ #Decryption 
+# We assume that the key was securely shared beforehand
+ try:
+  b64 = json.loads(result)
+  iv = b64decode(b64['iv'])
+  ct = b64decode(b64['ciphertext'])
+  cipher = AES.new(key, AES.MODE_CFB, iv=iv)
+  pt = cipher.decrypt(ct)
+  print("The message was: ", pt)
+ except (ValueError, KeyError):
+  print("Incorrect decryption")
 #my_function()
+
+def main():
+ print("Main function")
+ 
 
 #print('Enter your plaintext:')
 #message = input()
@@ -30,7 +64,8 @@ def CFBd():
 f = open("plain.txt", "r")
 message=(f.read())
 print("Plain text is: ",message) 
-f.close() 
+f.close()
+""" 
 x='10'
 y='01'
 while(x!='0' or y!='0'):
@@ -40,6 +75,7 @@ while(x!='0' or y!='0'):
  print("Enter number to encrypt or decypt:") 
  print("3=encrypt or 4=decrypt or 0=Exit")
  y=input()
+ """
 #while(x!='0'):
 # x = input()
  
@@ -49,74 +85,18 @@ data = message.encode('ASCII')
 print("The message is: ",data)
 key = get_random_bytes(16)
 print("key=", key)
-cipher = AES.new(key, AES.MODE_CBC)
+CBCe(data, key)
+CBCd()
+#CBCd(...)
 
-ct_bytes = cipher.encrypt(pad(data, AES.block_size))
-
-iv = b64encode(cipher.iv).decode('utf-8')
-
-ct = b64encode(ct_bytes).decode('utf-8')
-
-result = json.dumps({'iv':iv, 'ciphertext':ct})
-
-print(result)
-
-#Decryption
-
-# We assume that the key was securely shared beforehand
-
-try:
-
-    b64 = json.loads(result)
-
-    iv = b64decode(b64['iv'])
-
-    ct = b64decode(b64['ciphertext'])
-
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-
-    pt = unpad(cipher.decrypt(ct), AES.block_size)
-
-    print("The message was: ", pt)
-
-except (ValueError, KeyError):
-
-    print("Incorrect decryption")
 #CFB mode
+#CFBe(...)
 
-cipher = AES.new(key, AES.MODE_CFB)
-
-ct_bytes = cipher.encrypt(data)
-
-iv = b64encode(cipher.iv).decode('utf-8')
-
-ct = b64encode(ct_bytes).decode('utf-8')
-
-result = json.dumps({'iv':iv, 'ciphertext':ct})
-
-print(result)
 
 #Decryption 
-
+#CFBd(...)
 # We assume that the key was securely shared beforehand
 
-try:
-
-    b64 = json.loads(result)
-
-    iv = b64decode(b64['iv'])
-
-    ct = b64decode(b64['ciphertext'])
-
-    cipher = AES.new(key, AES.MODE_CFB, iv=iv)
-
-    pt = cipher.decrypt(ct)
-
-    print("The message was: ", pt)
-
-except (ValueError, KeyError):
-
-    print("Incorrect decryption")
 
 #CMAC
 #generate
