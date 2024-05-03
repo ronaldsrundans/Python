@@ -70,16 +70,26 @@ def CFBe():
  iv = b64encode(cipher.iv).decode('utf-8')
  ct = b64encode(ct_bytes).decode('utf-8')
  print("cyphertext=",ct)
- #arr[2]=iv
- #arr[3]=ct
+ f = open("iv.txt", "w")
+ f.write(iv)
+ f.close()
+ f = open("ct.txt", "w")
+ f.write(ct)
+ f.close()
 
-def CFBd(arr):
+def CFBd():
  print("CFBd")
+ f = open("iv.txt", "r")
+ iv=(f.read())
+ f.close()
+ f = open("ct.txt", "r")
+ ct=(f.read())
+ f.close()
  #Decryption 
 # We assume that the key was securely shared beforehand
  try:
-  iv=arr[2]
-  ct=arr[3]
+  #iv=arr[2]
+  #ct=arr[3]
   iv=b64decode(iv)
   ct = b64decode(ct)
   cipher = AES.new(key, AES.MODE_CFB, iv=iv)
@@ -105,7 +115,7 @@ print("key=",key)
 key=key.encode('ASCII')
 iv=""
 ct=""
-
+"""
 
 #Encryption
 CBCe()
@@ -117,7 +127,7 @@ CFBe()
 #Decryption
 CFBd()
 
-
+"""
 
 
 f = open("mac.txt", "r")
@@ -135,14 +145,18 @@ if(chainingmode == '1'):
  print("CBC")
  if(crytionmode == '3'):
   print("encrypt")
+  CBCe()
  if(crytionmode == '4'):
-  print("decrypt")  
+  print("decrypt")
+  CBCd()  
 if(chainingmode == '2'):
  print("CFB")
  if(crytionmode == '3'):
   print("encrypt")
+  CFBe()
  if(crytionmode == '4'):
   print("decrypt")
+  CFBd()
 
 
 
