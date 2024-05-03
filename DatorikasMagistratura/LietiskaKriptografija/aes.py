@@ -17,6 +17,7 @@ def CBCe(arr):
  print("cyphertext=",ct)
  arr[2]=iv
  arr[3]=ct
+ 
 def CBCd(arr):
  print("CBCe")
  #Decryption
@@ -31,6 +32,43 @@ def CBCd(arr):
   print("The message was: ", pt)
  except (ValueError, KeyError):
   print("Incorrect decryption")
+  
+def CFBe(arr):
+ print("CFBe")
+ data=arr[0]
+ key=arr[1]
+ """
+
+ iv=arr[2]
+ ct=arr[3]"""
+ cipher = AES.new(key, AES.MODE_CFB)
+ ct_bytes = cipher.encrypt(data)
+ iv = b64encode(cipher.iv).decode('utf-8')
+ ct = b64encode(ct_bytes).decode('utf-8')
+ print("cyphertext=",ct)
+ arr[2]=iv
+ arr[3]=ct
+ #result = json.dumps({'iv':iv, 'ciphertext':ct})
+ #print(result)
+
+def CFBd(arr):
+ print("CFBd")
+ #Decryption 
+# We assume that the key was securely shared beforehand
+ try:
+  iv=arr[2]
+  ct=arr[3]
+  iv=b64decode(iv)
+  ct = b64decode(ct)
+  cipher = AES.new(key, AES.MODE_CFB, iv=iv)
+  pt = cipher.decrypt(ct)
+  print("The message was: ", pt)
+ except (ValueError, KeyError):
+  print("Incorrect decryption")  
+  
+  
+  
+  
   
 #open and read the file after the appending:
 f = open("input.txt", "r")
@@ -48,11 +86,12 @@ key=key.encode('ASCII')
 iv=""
 ct=""
 arr=[]
-#Encryption
+
 arr.append(data)
 arr.append(key)
 arr.append(iv)
 arr.append(ct)
+#Encryption
 CBCe(arr)
 iv=arr[2]
 ct=arr[3]
@@ -60,6 +99,13 @@ print("iv=",iv)
 print("ct=",ct)
 #Decryption
 CBCd(arr)
+#Encryption
+CFBe(arr)
+#Decryption
+CFBd(arr)
+
+
+
 
 f = open("mac.txt", "r")
 #print(f.read())
