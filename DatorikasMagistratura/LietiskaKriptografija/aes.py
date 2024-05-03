@@ -4,8 +4,24 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import unpad
-
-
+#global iv
+#global ct
+#def CBCe(data, key, iv, ct):
+def CBCe(arr):
+ print("CBCe")
+ data=arr[0]
+ key=arr[1]
+ iv=arr[2]
+ ct=arr[3]
+ cipher = AES.new(key, AES.MODE_CBC)
+ ct_bytes = cipher.encrypt(pad(data, AES.block_size))
+ iv = b64encode(cipher.iv).decode('utf-8')
+ ct = b64encode(ct_bytes).decode('utf-8')
+ #result = json.dumps({'iv':iv, 'ciphertext':ct})
+ #print(result)
+ print("cyphertext=",ct)
+ arr[2]=iv
+ arr[3]=ct
 
 #open and read the file after the appending:
 f = open("input.txt", "r")
@@ -20,34 +36,40 @@ key=(f.read())#.encode
 f.close()
 print("key=",key)
 key=key.encode('ASCII')
-
+#global iv
+#global ct
+iv=""
+ct=""
+arr=[]
 #print("key=", len(key))
 
-
-cipher = AES.new(key, AES.MODE_CBC)
-
-ct_bytes = cipher.encrypt(pad(data, AES.block_size))
-print("cipher=",ct_bytes)
-iv = b64encode(cipher.iv).decode('utf-8')
+#Encryption
+#CBCe(data, key, iv, ct)
+arr.append(data)
+arr.append(key)
+arr.append(iv)
+arr.append(ct)
+CBCe(arr)
+iv=arr[2]
+ct=arr[3]
 print("iv=",iv)
-ct = b64encode(ct_bytes).decode('utf-8')
-print("cyphertext=",ct)
+print("ct=",ct)
 #Decryption
 
 # We assume that the key was securely shared beforehand
 
 try:
-    print(iv)
+    #print(iv)
     iv=b64decode(iv)
     ct = b64decode(ct)
     cipher = AES.new(key, AES.MODE_CBC, iv)
     pt = unpad(cipher.decrypt(ct), AES.block_size)
 
-    print("The message was: ", pt)
+    print("The plain text: ", pt)
 
 except (ValueError, KeyError):
 
-    print("Incorrect decryption")
+    print("Error! Incorrect decryption")
 
 
 f = open("mac.txt", "r")
