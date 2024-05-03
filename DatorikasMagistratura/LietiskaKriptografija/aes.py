@@ -1,5 +1,3 @@
-
-import json
 from base64 import b64encode
 from base64 import b64decode
 from Crypto.Cipher import AES
@@ -7,118 +5,85 @@ from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import unpad
 
-def CBCe(data, key):
- print("CBCe")
- cipher = AES.new(key, AES.MODE_CBC)
- ct_bytes = cipher.encrypt(pad(data, AES.block_size))
- iv = b64encode(cipher.iv).decode('utf-8')
- ct = b64encode(ct_bytes).decode('utf-8')
- result = json.dumps({'iv':iv, 'ciphertext':ct})
- print(result)
 
-def CBCd(data, key):
- print("CBCe")
- #Decryption
- # We assume that the key was securely shared beforehand
- try:
-  b64 = json.loads(result)
-  iv = b64decode(b64['iv'])
-  ct = b64decode(b64['ciphertext'])
-  cipher = AES.new(key, AES.MODE_CBC, iv)
-  pt = unpad(cipher.decrypt(ct), AES.block_size)
-  print("The message was: ", pt)
- except (ValueError, KeyError):
-  print("Incorrect decryption")
- 
-def CFBe(data, key):
- print("CFBe")
- cipher = AES.new(key, AES.MODE_CFB)
- ct_bytes = cipher.encrypt(data)
- iv = b64encode(cipher.iv).decode('utf-8')
- ct = b64encode(ct_bytes).decode('utf-8')
- result = json.dumps({'iv':iv, 'ciphertext':ct})
- print(result)
 
-def CFBd(data, key):
- print("CFBd")
- #Decryption 
-# We assume that the key was securely shared beforehand
- try:
-  b64 = json.loads(result)
-  iv = b64decode(b64['iv'])
-  ct = b64decode(b64['ciphertext'])
-  cipher = AES.new(key, AES.MODE_CFB, iv=iv)
-  pt = cipher.decrypt(ct)
-  print("The message was: ", pt)
- except (ValueError, KeyError):
-  print("Incorrect decryption")
-#my_function()
-
-def main():
- print("Main function")
- 
-
-#print('Enter your plaintext:')
-#message = input()
-#print('Hello, ' + x)
-f = open("plain.txt", "r")
-message=(f.read())
-print("Plain text is: ",message) 
+#open and read the file after the appending:
+f = open("input.txt", "r")
+inputtext=(f.read())
+print(inputtext)
+data = inputtext.encode('ASCII')
+#arr=(f.read())
 f.close()
-""" 
-x='10'
-y='01'
-while(x!='0' or y!='0'):
- print("Enter the mode number:") 
- print("1=CBC or 2=CFB  or 0=Exit")
- x=input()
- print("Enter number to encrypt or decypt:") 
- print("3=encrypt or 4=decrypt or 0=Exit")
- y=input()
- """
-#while(x!='0'):
-# x = input()
- 
-#message="secret"
+f = open("key.txt", "r")
+#print(f.read())
+key=(f.read())#.encode
+f.close()
+print("key=",key)
+key=key.encode('ASCII')
 
-data = message.encode('ASCII')
-print("The message is: ",data)
-key = get_random_bytes(16)
-print("key=", key)
-CBCe(data, key)
-CBCd()
-#CBCd(...)
-
-#CFB mode
-#CFBe(...)
+#print("key=", len(key))
 
 
-#Decryption 
-#CFBd(...)
+cipher = AES.new(key, AES.MODE_CBC)
+
+ct_bytes = cipher.encrypt(pad(data, AES.block_size))
+print("cipher=",ct_bytes)
+iv = b64encode(cipher.iv).decode('utf-8')
+print("iv=",iv)
+ct = b64encode(ct_bytes).decode('utf-8')
+print("cyphertext=",ct)
+#Decryption
+
 # We assume that the key was securely shared beforehand
 
+try:
+    print(iv)
+    iv=b64decode(iv)
+    ct = b64decode(ct)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    pt = unpad(cipher.decrypt(ct), AES.block_size)
 
-#CMAC
-#generate
-from cryptography.hazmat.primitives import cmac
+    print("The message was: ", pt)
 
-from cryptography.hazmat.primitives.ciphers import algorithms
+except (ValueError, KeyError):
 
-c = cmac.CMAC(algorithms.AES(key))
+    print("Incorrect decryption")
 
-#c.update(b"message to authenticate")
-c.update(data)
 
-c.finalize()
+f = open("mac.txt", "r")
+#print(f.read())
+mac=(f.read())#.encode
+print("mac=", mac)
+f.close()
 
-#CMAC
-#validate
-c = cmac.CMAC(algorithms.AES(key))
+print('Chaining mode number: 1-CBC or 2=CFB')
+chainingmode = input()
+print('Choose a number: 3-encrypt or 4=decrypt')
+crytionmode = input()
+print("Your choise is:")
+if(chainingmode == '1'):
+ print("CBC")
+ if(crytionmode == '3'):
+  print("encrypt")
+ if(crytionmode == '4'):
+  print("decrypt")  
+if(chainingmode == '2'):
+ print("CFB")
+ if(crytionmode == '3'):
+  print("encrypt")
+ if(crytionmode == '4'):
+  print("decrypt")
 
-#c.update(b"message to authenticate")
-c.update(data)
 
-#c.verify(data)
 
-#c.verify(b"an incorrect signature")
-#c.verify(b"message to authenticate")
+
+f = open("output.txt", "w")
+f.write("Now the file has more content!")
+#print(f.read())
+f.close()
+#MAC
+f = open("mac.txt", "w")
+f.write("MAC value")
+#print(f.read())
+f.close()
+
