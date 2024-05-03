@@ -10,14 +10,14 @@ def CBCe():
  inputtext=(f.read())
  print(inputtext)
  data = inputtext.encode('ASCII')
- f.close()
+ f.close() 
+ """
  f = open("key.txt", "r")
- key=(f.read())#.encode
+ key=(f.read())
  f.close()
+
  print("key=",key)
- key=key.encode('ASCII')
- iv=""
- ct=""
+ key=key.encode('ASCII')"""
  cipher = AES.new(key, AES.MODE_CBC)
  ct_bytes = cipher.encrypt(pad(data, AES.block_size))
  iv = b64encode(cipher.iv).decode('utf-8')
@@ -38,15 +38,10 @@ def CBCd():
  f = open("ct.txt", "r")
  ct=(f.read())
  f.close()
- #f = open("key.txt", "r")
- #key=(f.read())
- #print("CFBd_key=", key)
- #f.close()
- #Decryption
- # We assume that the key was securely shared beforehand
- try:
-  iv=b64decode(iv)
-  ct = b64decode(ct)
+ iv=b64decode(iv)
+ ct = b64decode(ct)
+ try: 
+
   cipher = AES.new(key, AES.MODE_CBC, iv)
   pt = unpad(cipher.decrypt(ct), AES.block_size)
   print("The message was: ", pt)
@@ -60,11 +55,12 @@ def CFBe():
  print(inputtext)
  data = inputtext.encode('ASCII')
  f.close()
+ """
  f = open("key.txt", "r")
  key=(f.read())#.encode
  f.close()
  print("key=",key)
- key=key.encode('ASCII')
+ key=key.encode('ASCII')"""
  cipher = AES.new(key, AES.MODE_CFB)
  ct_bytes = cipher.encrypt(data)
  iv = b64encode(cipher.iv).decode('utf-8')
@@ -88,8 +84,6 @@ def CFBd():
  #Decryption 
 # We assume that the key was securely shared beforehand
  try:
-  #iv=arr[2]
-  #ct=arr[3]
   iv=b64decode(iv)
   ct = b64decode(ct)
   cipher = AES.new(key, AES.MODE_CFB, iv=iv)
@@ -99,39 +93,15 @@ def CFBd():
   print("Incorrect decryption")  
   
   
-  
-  
-  
-#open and read the file after the appending:
-f = open("input.txt", "r")
-inputtext=(f.read())
-print(inputtext)
-data = inputtext.encode('ASCII')
-f.close()
+
 f = open("key.txt", "r")
 key=(f.read())#.encode
 f.close()
 print("key=",key)
 key=key.encode('ASCII')
-iv=""
-ct=""
-"""
-
-#Encryption
-CBCe()
-#Decryption
-CBCd()
-
-#Encryption
-CFBe()
-#Decryption
-CFBd()
-
-"""
 
 
 f = open("mac.txt", "r")
-#print(f.read())
 mac=(f.read())#.encode
 print("mac=", mac)
 f.close()
