@@ -4,27 +4,47 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import unpad
-def CBCe(arr):
+def CBCe():
  print("CBCe")
- data=arr[0]
- key=arr[1]
- iv=arr[2]
- ct=arr[3]
+ f = open("input.txt", "r")
+ inputtext=(f.read())
+ print(inputtext)
+ data = inputtext.encode('ASCII')
+ f.close()
+ f = open("key.txt", "r")
+ key=(f.read())#.encode
+ f.close()
+ print("key=",key)
+ key=key.encode('ASCII')
+ iv=""
+ ct=""
  cipher = AES.new(key, AES.MODE_CBC)
  ct_bytes = cipher.encrypt(pad(data, AES.block_size))
  iv = b64encode(cipher.iv).decode('utf-8')
  ct = b64encode(ct_bytes).decode('utf-8')
  print("cyphertext=",ct)
- arr[2]=iv
- arr[3]=ct
+ f = open("iv.txt", "w")
+ f.write(iv)
+ f.close()
+ f = open("ct.txt", "w")
+ f.write(ct)
+ f.close()
  
-def CBCd(arr):
- print("CBCe")
+def CBCd():
+ print("CBCd")
+ f = open("iv.txt", "r")
+ iv=(f.read())
+ f.close()
+ f = open("ct.txt", "r")
+ ct=(f.read())
+ f.close()
+ #f = open("key.txt", "r")
+ #key=(f.read())
+ #print("CFBd_key=", key)
+ #f.close()
  #Decryption
  # We assume that the key was securely shared beforehand
  try:
-  iv=arr[2]
-  ct=arr[3]
   iv=b64decode(iv)
   ct = b64decode(ct)
   cipher = AES.new(key, AES.MODE_CBC, iv)
@@ -33,23 +53,25 @@ def CBCd(arr):
  except (ValueError, KeyError):
   print("Incorrect decryption")
   
-def CFBe(arr):
+def CFBe():
  print("CFBe")
- data=arr[0]
- key=arr[1]
- """
-
- iv=arr[2]
- ct=arr[3]"""
+ f = open("input.txt", "r")
+ inputtext=(f.read())
+ print(inputtext)
+ data = inputtext.encode('ASCII')
+ f.close()
+ f = open("key.txt", "r")
+ key=(f.read())#.encode
+ f.close()
+ print("key=",key)
+ key=key.encode('ASCII')
  cipher = AES.new(key, AES.MODE_CFB)
  ct_bytes = cipher.encrypt(data)
  iv = b64encode(cipher.iv).decode('utf-8')
  ct = b64encode(ct_bytes).decode('utf-8')
  print("cyphertext=",ct)
- arr[2]=iv
- arr[3]=ct
- #result = json.dumps({'iv':iv, 'ciphertext':ct})
- #print(result)
+ #arr[2]=iv
+ #arr[3]=ct
 
 def CFBd(arr):
  print("CFBd")
@@ -75,34 +97,25 @@ f = open("input.txt", "r")
 inputtext=(f.read())
 print(inputtext)
 data = inputtext.encode('ASCII')
-#arr=(f.read())
 f.close()
 f = open("key.txt", "r")
 key=(f.read())#.encode
 f.close()
 print("key=",key)
 key=key.encode('ASCII')
-
 iv=""
 ct=""
-arr=[]
 
-arr.append(data)
-arr.append(key)
-arr.append(iv)
-arr.append(ct)
+
 #Encryption
-CBCe(arr)
-iv=arr[2]
-ct=arr[3]
-print("iv=",iv)
-print("ct=",ct)
+CBCe()
 #Decryption
-CBCd(arr)
+CBCd()
+
 #Encryption
-CFBe(arr)
+CFBe()
 #Decryption
-CFBd(arr)
+CFBd()
 
 
 
