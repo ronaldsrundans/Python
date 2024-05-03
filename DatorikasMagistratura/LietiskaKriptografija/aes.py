@@ -4,29 +4,26 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import unpad
+
 def CBCe():
  print("CBCe")
  f = open("input.txt", "r")
  inputtext=(f.read())
- print(inputtext)
+ print("Plain text: ", inputtext)
  data = inputtext.encode('ASCII')
  f.close() 
- """
- f = open("key.txt", "r")
- key=(f.read())
- f.close()
-
- print("key=",key)
- key=key.encode('ASCII')"""
  cipher = AES.new(key, AES.MODE_CBC)
  ct_bytes = cipher.encrypt(pad(data, AES.block_size))
  iv = b64encode(cipher.iv).decode('utf-8')
  ct = b64encode(ct_bytes).decode('utf-8')
- print("cyphertext=",ct)
+ print("Cypher text: ",ct)
  f = open("iv.txt", "w")
  f.write(iv)
  f.close()
  f = open("ct.txt", "w")
+ f.write(ct)
+ f.close()
+ f = open("output.txt", "w")
  f.write(ct)
  f.close()
  
@@ -35,16 +32,19 @@ def CBCd():
  f = open("iv.txt", "r")
  iv=(f.read())
  f.close()
- f = open("ct.txt", "r")
+ #f = open("ct.txt", "r")
+ f = open("input.txt", "r")
  ct=(f.read())
  f.close()
  iv=b64decode(iv)
  ct = b64decode(ct)
  try: 
-
   cipher = AES.new(key, AES.MODE_CBC, iv)
   pt = unpad(cipher.decrypt(ct), AES.block_size)
   print("The message was: ", pt)
+  f = open("output.txt", "w")
+  f.write(pt)
+  f.close()
  except (ValueError, KeyError):
   print("Incorrect decryption")
   
@@ -55,17 +55,11 @@ def CFBe():
  print(inputtext)
  data = inputtext.encode('ASCII')
  f.close()
- """
- f = open("key.txt", "r")
- key=(f.read())#.encode
- f.close()
- print("key=",key)
- key=key.encode('ASCII')"""
  cipher = AES.new(key, AES.MODE_CFB)
  ct_bytes = cipher.encrypt(data)
  iv = b64encode(cipher.iv).decode('utf-8')
  ct = b64encode(ct_bytes).decode('utf-8')
- print("cyphertext=",ct)
+ print("Cypher text: ",ct)
  f = open("iv.txt", "w")
  f.write(iv)
  f.close()
@@ -78,17 +72,19 @@ def CFBd():
  f = open("iv.txt", "r")
  iv=(f.read())
  f.close()
- f = open("ct.txt", "r")
+ #f = open("ct.txt", "r")
+ f = open("input.txt", "r")
  ct=(f.read())
  f.close()
- #Decryption 
-# We assume that the key was securely shared beforehand
  try:
   iv=b64decode(iv)
   ct = b64decode(ct)
   cipher = AES.new(key, AES.MODE_CFB, iv=iv)
   pt = cipher.decrypt(ct)
   print("The message was: ", pt)
+  f = open("output.txt", "w")
+  f.write(pt)
+  f.close()
  except (ValueError, KeyError):
   print("Incorrect decryption")  
   
@@ -106,7 +102,7 @@ mac=(f.read())#.encode
 print("mac=", mac)
 f.close()
 
-print('Chaining mode number: 1-CBC or 2=CFB')
+print('Chaining mode number: 1=CBC or 2=CFB')
 chainingmode = input()
 print('Choose a number: 3-encrypt or 4=decrypt')
 crytionmode = input()
@@ -128,13 +124,6 @@ if(chainingmode == '2'):
   print("decrypt")
   CFBd()
 
-
-
-
-f = open("output.txt", "w")
-f.write("Now the file has more content!")
-#print(f.read())
-f.close()
 #MAC
 f = open("mac.txt", "w")
 f.write("MAC value")
