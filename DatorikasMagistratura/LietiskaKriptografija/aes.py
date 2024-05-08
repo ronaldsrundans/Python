@@ -4,6 +4,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import unpad
+from Crypto.Hash import CMAC
 
 def CBCe():
  print("CBCe")
@@ -17,6 +18,23 @@ def CBCe():
  iv = b64encode(cipher.iv).decode('utf-8')
  ct = b64encode(ct_bytes).decode('utf-8')
  print("Cypher text: ",ct)
+
+
+ #secret = b'Sixteen byte key'
+ #print(type(secret))
+ #print(type(key))
+ #msg =b'Sixteen byte key'
+ #ct_bytes=inputtext.encode('utf-8')
+ #msg = bytes(inputtext, 'utf-8')
+ #print(type(msg))
+ #print(type(data))
+ cobj = CMAC.new(key, ciphermod=AES)
+ cobj.update(bytes(ct_bytes))
+ #cobj.update(bytes(msg))
+ res = cobj.hexdigest() 
+ print("MAC: ",res)
+ 
+ 
  f = open("iv.txt", "w")
  f.write(iv)
  f.close()
@@ -37,14 +55,20 @@ def CBCd():
  ct=(f.read())
  f.close()
  iv=b64decode(iv)
- ct = b64decode(ct)
+ ct = b64decode(ct) 
  try: 
   cipher = AES.new(key, AES.MODE_CBC, iv)
   pt = unpad(cipher.decrypt(ct), AES.block_size)
   print("The message was: ", pt)
   f = open("output.txt", "w")
-  f.write(pt)
+  f.write(str(pt))
+  #f.write(b64decode(pt))
   f.close()
+  cobj = CMAC.new(key, ciphermod=AES)
+  cobj.update(bytes(ct))
+  #cobj.update(bytes(msg))
+  res = cobj.hexdigest() 
+  print("MAC: ",res)
  except (ValueError, KeyError):
   print("Incorrect decryption")
   
@@ -52,7 +76,7 @@ def CFBe():
  print("CFBe")
  f = open("input.txt", "r")
  inputtext=(f.read())
- print(inputtext)
+ print("Plain text: ", inputtext)
  data = inputtext.encode('ASCII')
  f.close()
  cipher = AES.new(key, AES.MODE_CFB)
@@ -83,7 +107,7 @@ def CFBd():
   pt = cipher.decrypt(ct)
   print("The message was: ", pt)
   f = open("output.txt", "w")
-  f.write(pt)
+  f.write(str(pt))
   f.close()
  except (ValueError, KeyError):
   print("Incorrect decryption")  
