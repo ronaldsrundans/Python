@@ -5,9 +5,17 @@ from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import unpad
 from Crypto.Hash import CMAC
-
+def MACfunction(ct_bytes):
+ cobj = CMAC.new(key, ciphermod=AES)
+ cobj.update(bytes(ct_bytes))
+ res = cobj.hexdigest() 
+ print("MAC: ",res)
+ f = open("mac.txt", "w")
+ f.write(res)
+ f.close()
+ return res
 def CBCe():
- print("CBCe")
+ print("Function CBCe")
  f = open("input.txt", "r")
  inputtext=(f.read())
  print("Plain text: ", inputtext)
@@ -19,21 +27,13 @@ def CBCe():
  ct = b64encode(ct_bytes).decode('utf-8')
  print("Cypher text: ",ct)
 
-
- #secret = b'Sixteen byte key'
- #print(type(secret))
- #print(type(key))
- #msg =b'Sixteen byte key'
- #ct_bytes=inputtext.encode('utf-8')
- #msg = bytes(inputtext, 'utf-8')
- #print(type(msg))
- #print(type(data))
+ """
  cobj = CMAC.new(key, ciphermod=AES)
  cobj.update(bytes(ct_bytes))
- #cobj.update(bytes(msg))
  res = cobj.hexdigest() 
  print("MAC: ",res)
- 
+ """
+ MACfunction(ct_bytes)
  
  f = open("iv.txt", "w")
  f.write(iv)
@@ -46,7 +46,7 @@ def CBCe():
  f.close()
  
 def CBCd():
- print("CBCd")
+ print("Function CBCd")
  f = open("iv.txt", "r")
  iv=(f.read())
  f.close()
@@ -64,16 +64,19 @@ def CBCd():
   f.write(str(pt))
   #f.write(b64decode(pt))
   f.close()
+  MACfunction(ct)
+  """
   cobj = CMAC.new(key, ciphermod=AES)
   cobj.update(bytes(ct))
   #cobj.update(bytes(msg))
   res = cobj.hexdigest() 
   print("MAC: ",res)
+  """
  except (ValueError, KeyError):
   print("Incorrect decryption")
   
 def CFBe():
- print("CFBe")
+ print("Function CFBe")
  f = open("input.txt", "r")
  inputtext=(f.read())
  print("Plain text: ", inputtext)
@@ -84,15 +87,26 @@ def CFBe():
  iv = b64encode(cipher.iv).decode('utf-8')
  ct = b64encode(ct_bytes).decode('utf-8')
  print("Cypher text: ",ct)
+ 
+ ct_bytes = cipher.encrypt(pad(data, AES.block_size))
+ cobj = CMAC.new(key, ciphermod=AES)
+ cobj.update(bytes(ct_bytes))
+ res = cobj.hexdigest() 
+ print("MAC: ",res)
+ 
  f = open("iv.txt", "w")
  f.write(iv)
  f.close()
  f = open("ct.txt", "w")
  f.write(ct)
  f.close()
+ f = open("output.txt", "w")
+ f.write(ct)
+ f.close()
+
 
 def CFBd():
- print("CFBd")
+ print("Function CFBd")
  f = open("iv.txt", "r")
  iv=(f.read())
  f.close()
@@ -100,15 +114,26 @@ def CFBd():
  f = open("input.txt", "r")
  ct=(f.read())
  f.close()
+ print("ct1=",ct)
  try:
   iv=b64decode(iv)
   ct = b64decode(ct)
+  print("ct2=",ct)
   cipher = AES.new(key, AES.MODE_CFB, iv=iv)
   pt = cipher.decrypt(ct)
   print("The message was: ", pt)
   f = open("output.txt", "w")
   f.write(str(pt))
   f.close()
+  #MAC value generate
+  data = pt
+  cipher = AES.new(key, AES.MODE_CFB)
+  ct_bytes = cipher.encrypt(pad(data, AES.block_size))
+  cobj = CMAC.new(key, ciphermod=AES)
+  cobj.update(bytes(ct_bytes))
+  res = cobj.hexdigest() 
+  print("MAC: ",res)
+  #END MAC value generate
  except (ValueError, KeyError):
   print("Incorrect decryption")  
   
